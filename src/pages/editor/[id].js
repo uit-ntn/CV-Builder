@@ -39,9 +39,9 @@ const defaultCV = {
     }
   ],
   skills: [
-    { id: 'skill1', name: 'Kỹ năng 1', level: 80 },
-    { id: 'skill2', name: 'Kỹ năng 2', level: 70 },
-    { id: 'skill3', name: 'Kỹ năng 3', level: 90 }
+    { id: 'skill1', name: 'Kỹ năng 1', description: 'Mô tả kỹ năng của bạn' },
+    { id: 'skill2', name: 'Kỹ năng 2', description: 'Mô tả kỹ năng của bạn' },
+    { id: 'skill3', name: 'Kỹ năng 3', description: 'Mô tả kỹ năng của bạn' }
   ]
 }
 

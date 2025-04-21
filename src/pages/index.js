@@ -21,6 +21,18 @@ export default function Home() {
       name: 'Modern CV',
       description: 'A creative CV for designers and artists',
       image: '/images/templates/modern.png'
+    },
+    {
+      id: 'webdev',
+      name: 'Web Developer CV',
+      description: 'Optimized template for web developers',
+      image: '/images/templates/webdev.png'
+    },
+    {
+      id: 'cloud',
+      name: 'Cloud Engineer CV',
+      description: 'Tailored for cloud and DevOps professionals',
+      image: '/images/templates/cloud.png'
     }
   ]
 
