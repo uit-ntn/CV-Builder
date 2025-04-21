@@ -2,9 +2,19 @@ import { toPDF } from 'react-to-pdf';
 
 export default async function exportToPDF(cvData, templateId) {
   const element = document.getElementById('cv-preview');
+  
+  // Get current language for error messages
+  const language = localStorage.getItem('cv-language') || 'vi';
+  const errorMessage = language === 'vi' 
+    ? 'Không thể tạo PDF. Vui lòng thử lại.'
+    : 'Could not create PDF. Please try again.';
+  
+  const generalError = language === 'vi'
+    ? 'Có lỗi khi tạo PDF. Vui lòng thử lại sau.'
+    : 'Error generating PDF. Please try again later.';
 
   if (!element) {
-    alert('Không thể tạo PDF. Vui lòng thử lại.');
+    alert(errorMessage);
     return;
   }
 
@@ -36,6 +46,6 @@ export default async function exportToPDF(cvData, templateId) {
     await toPDF(element, options);
   } catch (error) {
     console.error('Error generating PDF:', error);
-    alert('Có lỗi khi tạo PDF. Vui lòng thử lại sau.');
+    alert(generalError);
   }
 }

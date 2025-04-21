@@ -1,11 +1,14 @@
 import '../styles/globals.css'
 import Layout from '../components/Layout'
+import { LanguageProvider } from '../context/LanguageContext'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <LanguageProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </LanguageProvider>
   )
 }
 

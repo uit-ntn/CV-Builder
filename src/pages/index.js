@@ -1,37 +1,40 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import TemplateCard from '../components/TemplateCard'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Home() {
+  const { t } = useLanguage();
+  
   const templates = [
     {
       id: 'simple',
-      name: 'Simple CV',
-      description: 'A clean, minimalist CV template',
+      nameKey: 'simpleCV',
+      descriptionKey: 'simpleDesc',
       image: '/images/templates/simple.png'
     },
     {
       id: 'professional',
-      name: 'Professional CV',
-      description: 'A business-style CV for corporate roles',
+      nameKey: 'professionalCV',
+      descriptionKey: 'professionalDesc',
       image: '/images/templates/professional.png'
     },
     {
       id: 'modern',
-      name: 'Modern CV',
-      description: 'A creative CV for designers and artists',
+      nameKey: 'modernCV',
+      descriptionKey: 'modernDesc',
       image: '/images/templates/modern.png'
     },
     {
       id: 'webdev',
-      name: 'Web Developer CV',
-      description: 'Optimized template for web developers',
+      nameKey: 'webDevCV',
+      descriptionKey: 'webDevDesc',
       image: '/images/templates/webdev.png'
     },
     {
       id: 'cloud',
-      name: 'Cloud Engineer CV',
-      description: 'Tailored for cloud and DevOps professionals',
+      nameKey: 'cloudCV',
+      descriptionKey: 'cloudDesc',
       image: '/images/templates/cloud.png'
     }
   ]
@@ -46,12 +49,19 @@ export default function Home() {
 
       <main>
         <h1 className="text-3xl font-bold text-center mb-10">
-          Chọn mẫu CV bạn muốn sử dụng
+          {t('chooseTemplate')}
         </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {templates.map((template) => (
-            <TemplateCard key={template.id} template={template} />
+            <TemplateCard 
+              key={template.id} 
+              template={{
+                ...template,
+                name: t(template.nameKey),
+                description: t(template.descriptionKey)
+              }} 
+            />
           ))}
         </div>
       </main>

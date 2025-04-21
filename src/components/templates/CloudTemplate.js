@@ -1,33 +1,47 @@
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaCloud, FaServer, FaCertificate } from 'react-icons/fa'
-
 export default function CloudTemplate({ data }) {
   return (
     <div id="cv-preview" className="w-full h-full bg-white text-gray-800 font-sans p-6">
       {/* Header with cloud theme */}
       <header className="bg-gradient-to-r from-gray-800 to-gray-700 text-white p-6 rounded-t-lg">
-        <h1 className="text-3xl font-bold">{data.personal.name}</h1>
-        <p className="text-xl mt-1">{data.personal.title}</p>
-        
-        {/* Contact info with cloud-related icons */}
-        <div className="flex flex-wrap gap-4 mt-4 text-sm">
-          <div className="flex items-center">
-            <FaEnvelope className="mr-2" />
-            <span>{data.personal.email}</span>
-          </div>
-          <div className="flex items-center">
-            <FaPhone className="mr-2" />
-            <span>{data.personal.phone}</span>
-          </div>
-          <div className="flex items-center">
-            <FaMapMarkerAlt className="mr-2" />
-            <span>{data.personal.address}</span>
-          </div>
-          {data.personal.linkedin && (
-            <div className="flex items-center">
-              <FaCloud className="mr-2" />
-              <span>{data.personal.linkedin}</span>
+        <div className="flex flex-wrap items-center">
+          {/* Avatar */}
+          {data.personal.avatar && (
+            <div className="mr-6 mb-4 md:mb-0">
+              <img 
+                src={data.personal.avatar} 
+                alt={data.personal.name}
+                className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-lg"
+              />
             </div>
           )}
+          
+          {/* Name and title */}
+          <div className={`${data.personal.avatar ? 'flex-1' : 'w-full'}`}>
+            <h1 className="text-3xl font-bold">{data.personal.name}</h1>
+            <p className="text-xl mt-1">{data.personal.title}</p>
+            
+            {/* Contact info with cloud-related icons */}
+            <div className="flex flex-wrap gap-4 mt-4 text-sm">
+              <div className="flex items-center">
+                <span className="mr-2">📧</span>
+                <span>{data.personal.email}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="mr-2">📱</span>
+                <span>{data.personal.phone}</span>
+              </div>
+              <div className="flex items-center">
+                <span className="mr-2">📍</span>
+                <span>{data.personal.address}</span>
+              </div>
+              {data.personal.linkedin && (
+                <div className="flex items-center">
+                  <span className="mr-2">☁️</span>
+                  <span>{data.personal.linkedin}</span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </header>
 
@@ -35,7 +49,7 @@ export default function CloudTemplate({ data }) {
         {/* About Me */}
         <section className="mb-6">
           <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
-            <FaServer className="inline-block mr-2" /> Professional Summary
+            <span className="mr-2">🖥️</span> Professional Summary
           </h2>
           <p className="text-sm">{data.personal.about}</p>
         </section>
@@ -43,7 +57,7 @@ export default function CloudTemplate({ data }) {
         {/* Technical Skills - Cloud Focused */}
         <section className="mb-6">
           <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
-            <FaCloud className="inline-block mr-2" /> Cloud & Technical Skills
+            <span className="mr-2">☁️</span> Cloud & Technical Skills
           </h2>
           <div className="grid grid-cols-1 gap-2">
             {data.skills.map((skill) => (
@@ -58,7 +72,7 @@ export default function CloudTemplate({ data }) {
         {/* Certifications Section (special for cloud engineers) */}
         <section className="mb-6">
           <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
-            <FaCertificate className="inline-block mr-2" /> Certifications
+            <span className="mr-2">🏆</span> Certifications
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {data.certifications ? (

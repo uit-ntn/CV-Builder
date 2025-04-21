@@ -1,7 +1,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function TemplateCard({ template }) {
+  const { t } = useLanguage();
+
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
       <div className="h-48 relative">
@@ -19,7 +22,7 @@ export default function TemplateCard({ template }) {
           href={`/editor/${template.id}`}
           className="block bg-blue-600 text-white text-center py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
         >
-          Sử dụng mẫu này
+          {t('useThisTemplate')}
         </Link>
       </div>
     </div>

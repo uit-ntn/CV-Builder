@@ -1,7 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useLanguage } from '../context/LanguageContext'
 
 export default function Layout({ children }) {
+  const { language, toggleLanguage, t } = useLanguage();
+
   return (
     <>
       <Head>
@@ -15,10 +18,16 @@ export default function Layout({ children }) {
           <Link href="/" className="text-2xl font-bold">
             CV Builder
           </Link>
-          <nav>
+          <nav className="flex items-center space-x-4">
             <Link href="/" className="px-4 py-2 rounded hover:bg-blue-600 transition-colors">
-              Trang chủ
+              {t('home')}
             </Link>
+            <button 
+              onClick={toggleLanguage} 
+              className="px-4 py-2 bg-white text-blue-600 rounded font-medium hover:bg-gray-100 transition-colors"
+            >
+              {language === 'vi' ? 'EN' : 'VI'}
+            </button>
           </nav>
         </div>
       </header>
@@ -30,7 +39,7 @@ export default function Layout({ children }) {
       <footer className="bg-gray-800 text-white py-6">
         <div className="container mx-auto px-4 text-center">
           <p>&copy; {new Date().getFullYear()} CV Builder. All rights reserved.</p>
-            <p className="mt-2">Made with ❤️ by Nguyễn Thanh Nhân</p>
+          <p className="mt-2">Made with ❤️ by Nguyễn Thanh Nhân</p>
         </div>
       </footer>
     </>

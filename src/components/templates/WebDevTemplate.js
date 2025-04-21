@@ -1,39 +1,51 @@
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLink } from 'react-icons/fa'
-
 export default function WebDevTemplate({ data }) {
   return (
     <div id="cv-preview" className="w-full h-full bg-white text-gray-800 font-sans p-6">
       {/* Header / Personal Info */}
-      <header className="border-b-4 border-blue-600 pb-4">
-        <h1 className="text-3xl font-bold text-blue-700">{data.personal.name}</h1>
-        <p className="text-xl font-semibold text-blue-600 mt-1">{data.personal.title}</p>
+      <header className="border-b-4 border-blue-600 pb-4 flex flex-wrap items-center">
+        {/* Avatar */}
+        {data.personal.avatar && (
+          <div className="mr-6 mb-4 md:mb-0">
+            <img 
+              src={data.personal.avatar} 
+              alt={data.personal.name}
+              className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-lg"
+            />
+          </div>
+        )}
         
-        {/* Contact info with dev icons */}
-        <div className="flex flex-wrap gap-4 mt-3 text-sm">
-          <div className="flex items-center">
-            <FaEnvelope className="mr-2 text-blue-600" />
-            <span>{data.personal.email}</span>
-          </div>
-          <div className="flex items-center">
-            <FaPhone className="mr-2 text-blue-600" />
-            <span>{data.personal.phone}</span>
-          </div>
-          <div className="flex items-center">
-            <FaMapMarkerAlt className="mr-2 text-blue-600" />
-            <span>{data.personal.address}</span>
-          </div>
-          {data.personal.github && (
+        {/* Name and title */}
+        <div className={`${data.personal.avatar ? 'flex-1' : 'w-full'}`}>
+          <h1 className="text-3xl font-bold text-blue-700">{data.personal.name}</h1>
+          <p className="text-xl font-semibold text-blue-600 mt-1">{data.personal.title}</p>
+          
+          {/* Contact info with dev icons */}
+          <div className="flex flex-wrap gap-4 mt-3 text-sm">
             <div className="flex items-center">
-              <FaGithub className="mr-2 text-blue-600" />
-              <span>{data.personal.github}</span>
+              <span className="mr-2">📧</span>
+              <span>{data.personal.email}</span>
             </div>
-          )}
-          {data.personal.portfolio && (
             <div className="flex items-center">
-              <FaLink className="mr-2 text-blue-600" />
-              <span>{data.personal.portfolio}</span>
+              <span className="mr-2">📱</span>
+              <span>{data.personal.phone}</span>
             </div>
-          )}
+            <div className="flex items-center">
+              <span className="mr-2">📍</span>
+              <span>{data.personal.address}</span>
+            </div>
+            {data.personal.github && (
+              <div className="flex items-center">
+                <span className="mr-2">💻</span>
+                <span>{data.personal.github}</span>
+              </div>
+            )}
+            {data.personal.portfolio && (
+              <div className="flex items-center">
+                <span className="mr-2">🔗</span>
+                <span>{data.personal.portfolio}</span>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
