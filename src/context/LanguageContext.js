@@ -102,7 +102,21 @@ const translations = {
     technicalCategory2: 'Công nghệ container',
     technicalSkills: 'AWS, Azure, GCP',
     technicalSkills2: 'Docker, Kubernetes',
-    addTechnical: 'Thêm chuyên môn kỹ thuật'
+    addTechnical: 'Thêm chuyên môn kỹ thuật',
+    
+    // Image Cropper
+    adjustAvatar: 'Điều chỉnh ảnh đại diện',
+    zoom: 'Thu phóng',
+    apply: 'Áp dụng',
+    cancel: 'Hủy bỏ',
+    
+    // Multi-column layout
+    leftColumn: 'Cột trái',
+    rightColumn: 'Cột phải',
+    oneColumn: 'Một cột',
+    twoColumns: 'Hai cột',
+    threeColumns: 'Ba cột',
+    columnLayout: 'Bố cục cột'
   },
   en: {
     // Navigation
@@ -204,7 +218,21 @@ const translations = {
     technicalCategory2: 'Containerization',
     technicalSkills: 'AWS, Azure, GCP',
     technicalSkills2: 'Docker, Kubernetes',
-    addTechnical: 'Add Technical Expertise'
+    addTechnical: 'Add Technical Expertise',
+    
+    // Image Cropper
+    adjustAvatar: 'Adjust Profile Photo',
+    zoom: 'Zoom',
+    apply: 'Apply',
+    cancel: 'Cancel',
+    
+    // Multi-column layout
+    leftColumn: 'Left Column',
+    rightColumn: 'Right Column',
+    oneColumn: 'One Column',
+    twoColumns: 'Two Columns',
+    threeColumns: 'Three Columns',
+    columnLayout: 'Column Layout'
   }
 };
 

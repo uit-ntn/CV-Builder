@@ -6,141 +6,166 @@ export default function WebDevTemplate({ data }) {
   return (
     <div id="cv-preview" className="w-full h-full bg-white text-gray-800 font-sans p-6">
       {/* Header / Personal Info */}
-      <header className="border-b-4 border-blue-600 pb-4 flex flex-wrap items-center">
-        {/* Avatar */}
-        {personalData.avatar && (
-          <div className="mr-6 mb-4 md:mb-0">
-            <img 
-              src={personalData.avatar} 
-              alt={personalData.name || "Profile"}
-              className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-lg"
-            />
+      <header className="border-b-4 border-blue-600 pb-6 mb-6">
+        <div className="flex flex-wrap">
+          {/* Left side: Avatar and name */}
+          <div className="w-full md:w-7/12 flex items-center mb-4 md:mb-0">
+            {/* Avatar */}
+            {personalData.avatar && (
+              <div className="mr-6">
+                <img 
+                  src={personalData.avatar} 
+                  alt={personalData.name || "Profile"}
+                  className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-lg"
+                />
+              </div>
+            )}
+            
+            {/* Name and title */}
+            <div>
+              <h1 className="text-3xl font-bold text-blue-700">{personalData.name || ""}</h1>
+              <p className="text-xl font-semibold text-blue-600 mt-1">{personalData.title || ""}</p>
+            </div>
           </div>
-        )}
-        
-        {/* Name and title */}
-        <div className={`${personalData.avatar ? 'flex-1' : 'w-full'}`}>
-          <h1 className="text-3xl font-bold text-blue-700">{personalData.name || ""}</h1>
-          <p className="text-xl font-semibold text-blue-600 mt-1">{personalData.title || ""}</p>
           
-          {/* Contact info with dev icons */}
-          <div className="flex flex-wrap gap-4 mt-3 text-sm">
+          {/* Right side: Contact info in vertical layout */}
+          <div className="w-full md:w-5/12 flex flex-col justify-center space-y-2">
             <div className="flex items-center">
-              <span className="mr-2">📧</span>
+              <span className="mr-3 text-blue-600 w-5 text-center">📧</span>
               <span>{personalData.email || ""}</span>
             </div>
             <div className="flex items-center">
-              <span className="mr-2">📱</span>
+              <span className="mr-3 text-blue-600 w-5 text-center">📱</span>
               <span>{personalData.phone || ""}</span>
             </div>
             <div className="flex items-center">
-              <span className="mr-2">📍</span>
+              <span className="mr-3 text-blue-600 w-5 text-center">📍</span>
               <span>{personalData.address || ""}</span>
             </div>
             {personalData.github && (
               <div className="flex items-center">
-                <span className="mr-2">💻</span>
+                <span className="mr-3 text-blue-600 w-5 text-center">💻</span>
                 <span>{personalData.github}</span>
               </div>
             )}
             {personalData.portfolio && (
               <div className="flex items-center">
-                <span className="mr-2">🔗</span>
+                <span className="mr-3 text-blue-600 w-5 text-center">🔗</span>
                 <span>{personalData.portfolio}</span>
+              </div>
+            )}
+            {personalData.linkedin && (
+              <div className="flex items-center">
+                <span className="mr-3 text-blue-600 w-5 text-center">👔</span>
+                <span>{personalData.linkedin}</span>
               </div>
             )}
           </div>
         </div>
       </header>
 
-      {/* About Me */}
-      <section className="py-3">
-        <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-2">About Me</h2>
-        <p className="text-sm">{personalData.about || ""}</p>
-      </section>
+      {/* Main content - Three column layout */}
+      <div className="flex flex-wrap -mx-4">
+        {/* Left column */}
+        <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0">
+          {/* About Me */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-2">About Me</h2>
+            <p className="text-sm">{personalData.about || ""}</p>
+          </section>
 
-      {/* Personal Projects - New section for WebDev Template */}
-      {projects.length > 0 && (
-        <section className="py-3">
-          <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Personal Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {projects.map((project) => (
-              <div key={project.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                {project.image && (
-                  <div className="h-40 overflow-hidden">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <div className="p-4">
-                  <h3 className="font-bold text-blue-700 text-lg">{project.title}</h3>
-                  <p className="text-sm mt-1">{project.description}</p>
-                  <div className="mt-2">
-                    <span className="text-xs font-semibold text-gray-600">Technologies:</span>
-                    <p className="text-xs">{project.technologies}</p>
-                  </div>
-                  {project.link && (
-                    <a 
-                      href={project.link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-block mt-2 text-blue-600 hover:underline text-sm"
-                    >
-                      View Project →
-                    </a>
-                  )}
+          {/* Education */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Education</h2>
+            {data.education.map((edu) => (
+              <div key={edu.id} className="mb-4">
+                <div>
+                  <h3 className="font-bold">{edu.degree}</h3>
+                  <p className="text-sm text-gray-600">{edu.from} - {edu.to}</p>
                 </div>
+                <div className="text-blue-700 font-medium">{edu.school}</div>
+                <div className="text-sm text-gray-600">{edu.location}</div>
+                <p className="text-sm mt-1">{edu.description}</p>
               </div>
             ))}
-          </div>
-        </section>
-      )}
-
-      {/* Tech Skills */}
-      <section className="py-3">
-        <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Technical Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {data.skills.map((skill) => (
-            <div key={skill.id} className="mb-2">
-              <h3 className="font-semibold text-blue-700">{skill.name}</h3>
-              <p className="text-sm">{skill.description}</p>
-            </div>
-          ))}
+          </section>
         </div>
-      </section>
-
-      {/* Professional Experience */}
-      <section className="py-3">
-        <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Experience</h2>
-        {data.experience.map((exp) => (
-          <div key={exp.id} className="mb-4">
-            <div className="flex justify-between items-start">
-              <h3 className="font-bold">{exp.title}</h3>
-              <span className="text-sm text-gray-600">{exp.from} - {exp.to}</span>
+        
+        {/* Middle column */}
+        <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0">
+          {/* Tech Skills */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Technical Skills</h2>
+            <div className="space-y-3">
+              {data.skills.map((skill) => (
+                <div key={skill.id} className="mb-2">
+                  <h3 className="font-semibold text-blue-700">{skill.name}</h3>
+                  <p className="text-sm">{skill.description}</p>
+                </div>
+              ))}
             </div>
-            <div className="text-blue-700 font-medium">{exp.company}, {exp.location}</div>
-            <p className="text-sm mt-1">{exp.description}</p>
-          </div>
-        ))}
-      </section>
-
-      {/* Education */}
-      <section className="py-3">
-        <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Education</h2>
-        {data.education.map((edu) => (
-          <div key={edu.id} className="mb-3">
-            <div className="flex justify-between">
-              <h3 className="font-bold">{edu.degree}</h3>
-              <span className="text-sm text-gray-600">{edu.from} - {edu.to}</span>
-            </div>
-            <div className="text-blue-700 font-medium">{edu.school}, {edu.location}</div>
-            <p className="text-sm mt-1">{edu.description}</p>
-          </div>
-        ))}
-      </section>
+          </section>
+          
+          {/* Personal Projects - specific for WebDev Template */}
+          {projects.length > 0 && (
+            <section className="mb-6">
+              <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Projects</h2>
+              <div className="space-y-4">
+                {projects.map((project) => (
+                  <div key={project.id} className="border rounded-lg overflow-hidden shadow-sm">
+                    {project.image && (
+                      <div className="h-32 overflow-hidden">
+                        <img 
+                          src={project.image} 
+                          alt={project.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    <div className="p-3">
+                      <h3 className="font-bold text-blue-700">{project.title}</h3>
+                      <p className="text-xs mt-1">{project.description}</p>
+                      <div className="mt-2">
+                        <span className="text-xs font-semibold">Tech:</span>
+                        <p className="text-xs">{project.technologies}</p>
+                      </div>
+                      {project.link && (
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-block mt-1 text-blue-600 hover:underline text-xs"
+                        >
+                          View Project →
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+        
+        {/* Right column */}
+        <div className="w-full md:w-1/3 px-4">
+          {/* Professional Experience */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Experience</h2>
+            {data.experience.map((exp) => (
+              <div key={exp.id} className="mb-4">
+                <div>
+                  <h3 className="font-bold">{exp.title}</h3>
+                  <p className="text-sm text-gray-600">{exp.from} - {exp.to}</p>
+                </div>
+                <div className="text-blue-700 font-medium">{exp.company}</div>
+                <div className="text-sm text-gray-600">{exp.location}</div>
+                <p className="text-sm mt-1">{exp.description}</p>
+              </div>
+            ))}
+          </section>
+        </div>
+      </div>
     </div>
   );
 }

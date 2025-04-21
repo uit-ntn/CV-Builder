@@ -1,8 +1,13 @@
 import { useState, useRef } from 'react'
+import ImageCropper from './ImageCropper'
 
 export default function CVEditor({ section, data, onChange, translations: t }) {
   const fileInputRef = useRef(null);
   const projectImageRef = useRef(null);
+  
+  // State for image cropping
+  const [cropperImage, setCropperImage] = useState(null);
+  const [showCropper, setShowCropper] = useState(false);
   
   // Function to handle avatar upload
   const handleAvatarChange = (e) => {
@@ -21,15 +26,29 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
       return;
     }
     
-    // Read file as data URL
+    // Read file as data URL and show cropper
     const reader = new FileReader();
-    reader.onload = (event) => {
-      onChange({
-        ...data,
-        avatar: event.target.result
-      });
+    reader.onload = (e) => {
+      setCropperImage(e.target.result);
+      setShowCropper(true);
     };
     reader.readAsDataURL(file);
+  };
+  
+  // Function to handle cropped image
+  const handleCroppedImage = (croppedImage) => {
+    onChange({
+      ...data,
+      avatar: croppedImage
+    });
+    setShowCropper(false);
+    setCropperImage(null);
+  };
+  
+  // Function to cancel cropping
+  const handleCropperCancel = () => {
+    setShowCropper(false);
+    setCropperImage(null);
   };
   
   // Function to remove avatar
@@ -107,7 +126,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
       
       return (
         <div>
-          {/* Avatar upload */}
+          {/* Avatar upload with cropper */}
           <div className="mb-6 text-center">
             <label className="block text-gray-700 mb-2 font-medium">{t('avatar')}</label>
             
@@ -118,15 +137,29 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
                   alt="Profile" 
                   className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
                 />
-                <button
-                  onClick={handleRemoveAvatar}
-                  className="absolute bottom-0 right-0 bg-red-500 text-white rounded-full p-1 shadow-md"
-                  title={t('removeAvatar')}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
+                <div className="absolute bottom-0 right-0 flex">
+                  <button
+                    onClick={() => {
+                      setCropperImage(personalData.avatar);
+                      setShowCropper(true);
+                    }}
+                    className="bg-blue-500 text-white rounded-full p-1 shadow-md mr-2"
+                    title={t('adjustAvatar')}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={handleRemoveAvatar}
+                    className="bg-red-500 text-white rounded-full p-1 shadow-md"
+                    title={t('removeAvatar')}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             ) : (
               <div 
@@ -234,6 +267,15 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
               onChange={(e) => handlePersonalChange('about', e.target.value)}
             />
           </div>
+          
+          {/* Image cropper modal */}
+          {showCropper && cropperImage && (
+            <ImageCropper
+              image={cropperImage}
+              onCropComplete={handleCroppedImage}
+              onCancel={handleCropperCancel}
+            />
+          )}
         </div>
       )
     
