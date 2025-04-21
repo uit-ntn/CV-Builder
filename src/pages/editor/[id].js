@@ -7,66 +7,67 @@ import exportToPDF from '../../utils/exportToPDF'
 import exportToWord from '../../utils/exportToWord'
 import { useLanguage } from '../../context/LanguageContext'
 
-// Default CV data structure
-const getDefaultCV = (t) => ({
-  personal: {
-    name: t ? t('name') : 'Họ và tên',
-    title: t ? t('jobTitle') : 'Vị trí công việc',
-    email: 'email@example.com',
-    phone: '0123456789',
-    address: t ? t('address') : 'Địa chỉ của bạn',
-    about: t ? t('about') : 'Giới thiệu ngắn về bản thân...',
-    avatar: '', // Base64 image data or empty string
-    github: 'github.com/username',
-    portfolio: 'yourportfolio.com',
-    linkedin: 'linkedin.com/in/username'
-  },
-  experience: [
-    {
-      id: 'exp1',
-      title: t('position'),
-      company: t('company'),
-      location: t('location'),
-      from: '01/2020',
-      to: t('present'),
-      description: t('description')
-    }
-  ],
-  education: [
-    {
-      id: 'edu1',
-      degree: t('degree'),
-      school: t('school'),
-      location: t('location'),
-      from: '01/2015',
-      to: '12/2019',
-      description: t('eduDescription')
-    }
-  ],
-  skills: [
-    { id: 'skill1', name: `${t('skillName')} 1`, description: t('skillDescription') },
-    { id: 'skill2', name: `${t('skillName')} 2`, description: t('skillDescription') },
-    { id: 'skill3', name: `${t('skillName')} 3`, description: t('skillDescription') }
-  ],
-  certifications: [
-    { id: 'cert1', name: `${t('certName')} 1`, issuer: t('issuer'), date: '01/2022' },
-    { id: 'cert2', name: `${t('certName')} 2`, issuer: t('issuer'), date: '06/2021' }
-  ]
-});
-
 export default function EditorPage() {
-  const router = useRouter();
-  const { id: templateId } = router.query;
+  const router = useRouter()
+  const { id: templateId } = router.query
+  const [activeSection, setActiveSection] = useState('personal')
   const { t, language } = useLanguage();
-  const [activeSection, setActiveSection] = useState('personal');
-  const [cvData, setCvData] = useState({});
+  
+  // Define default CV data with avatar field
+  const getDefaultCV = () => ({
+    personal: {
+      name: t('name'),
+      title: t('jobTitle'),
+      email: 'email@example.com',
+      phone: '0123456789',
+      address: t('address'),
+      about: t('about'),
+      avatar: '', // Initialize empty avatar field
+      github: 'github.com/username',
+      portfolio: 'yourportfolio.com',
+      linkedin: 'linkedin.com/in/username'
+    },
+    experience: [
+      {
+        id: 'exp1',
+        title: t('position'),
+        company: t('company'),
+        location: t('location'),
+        from: '01/2020',
+        to: t('present'),
+        description: t('description')
+      }
+    ],
+    education: [
+      {
+        id: 'edu1',
+        degree: t('degree'),
+        school: t('school'),
+        location: t('location'),
+        from: '01/2015',
+        to: '12/2019',
+        description: t('eduDescription')
+      }
+    ],
+    skills: [
+      { id: 'skill1', name: `${t('skillName')} 1`, description: t('skillDescription') },
+      { id: 'skill2', name: `${t('skillName')} 2`, description: t('skillDescription') },
+      { id: 'skill3', name: `${t('skillName')} 3`, description: t('skillDescription') }
+    ],
+    certifications: [
+      { id: 'cert1', name: `${t('certName')} 1`, issuer: t('issuer'), date: '01/2022' },
+      { id: 'cert2', name: `${t('certName')} 2`, issuer: t('issuer'), date: '06/2021' }
+    ]
+  });
 
-  // Initialize CV data when component mounts or language changes
+  const [cvData, setCvData] = useState(() => getDefaultCV());
+
+  // Update CV data when language changes
   useEffect(() => {
     // Only update if we haven't customized the CV data yet
     const hasCustomized = localStorage.getItem('cv-data-customized') === 'true';
     if (!hasCustomized) {
-      setCvData(getDefaultCV(t));
+      setCvData(getDefaultCV());
     }
   }, [language]);
 

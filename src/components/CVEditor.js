@@ -76,16 +76,19 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
   // Render different section forms based on the active section
   switch (section) {
     case 'personal':
+      // Initialize data object if undefined
+      const personalData = data || {};
+      
       return (
         <div>
           {/* Avatar upload */}
           <div className="mb-6 text-center">
             <label className="block text-gray-700 mb-2 font-medium">{t('avatar')}</label>
             
-            {data.avatar ? (
+            {personalData.avatar ? (
               <div className="relative inline-block">
                 <img 
-                  src={data.avatar} 
+                  src={personalData.avatar} 
                   alt="Profile" 
                   className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
                 />
@@ -129,7 +132,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.name || ''}
+              value={personalData.name || ''}
               onChange={(e) => handlePersonalChange('name', e.target.value)}
             />
           </div>
@@ -138,7 +141,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.title || ''}
+              value={personalData.title || ''}
               onChange={(e) => handlePersonalChange('title', e.target.value)}
             />
           </div>
@@ -147,7 +150,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="email" 
               className="w-full border rounded px-3 py-2"
-              value={data.email || ''}
+              value={personalData.email || ''}
               onChange={(e) => handlePersonalChange('email', e.target.value)}
             />
           </div>
@@ -156,7 +159,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.phone || ''}
+              value={personalData.phone || ''}
               onChange={(e) => handlePersonalChange('phone', e.target.value)}
             />
           </div>
@@ -165,7 +168,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.address || ''}
+              value={personalData.address || ''}
               onChange={(e) => handlePersonalChange('address', e.target.value)}
             />
           </div>
@@ -174,7 +177,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.github || ''}
+              value={personalData.github || ''}
               onChange={(e) => handlePersonalChange('github', e.target.value)}
             />
           </div>
@@ -183,7 +186,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.portfolio || ''}
+              value={personalData.portfolio || ''}
               onChange={(e) => handlePersonalChange('portfolio', e.target.value)}
             />
           </div>
@@ -192,7 +195,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <input 
               type="text" 
               className="w-full border rounded px-3 py-2"
-              value={data.linkedin || ''}
+              value={personalData.linkedin || ''}
               onChange={(e) => handlePersonalChange('linkedin', e.target.value)}
             />
           </div>
@@ -201,7 +204,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <textarea 
               className="w-full border rounded px-3 py-2"
               rows="4"
-              value={data.about || ''}
+              value={personalData.about || ''}
               onChange={(e) => handlePersonalChange('about', e.target.value)}
             />
           </div>

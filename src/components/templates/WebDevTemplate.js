@@ -1,48 +1,51 @@
 export default function WebDevTemplate({ data }) {
+  // Ensure data has the expected structure
+  const personalData = data?.personal || {};
+  
   return (
     <div id="cv-preview" className="w-full h-full bg-white text-gray-800 font-sans p-6">
       {/* Header / Personal Info */}
       <header className="border-b-4 border-blue-600 pb-4 flex flex-wrap items-center">
         {/* Avatar */}
-        {data.personal.avatar && (
+        {personalData.avatar && (
           <div className="mr-6 mb-4 md:mb-0">
             <img 
-              src={data.personal.avatar} 
-              alt={data.personal.name}
+              src={personalData.avatar} 
+              alt={personalData.name || "Profile"}
               className="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow-lg"
             />
           </div>
         )}
         
         {/* Name and title */}
-        <div className={`${data.personal.avatar ? 'flex-1' : 'w-full'}`}>
-          <h1 className="text-3xl font-bold text-blue-700">{data.personal.name}</h1>
-          <p className="text-xl font-semibold text-blue-600 mt-1">{data.personal.title}</p>
+        <div className={`${personalData.avatar ? 'flex-1' : 'w-full'}`}>
+          <h1 className="text-3xl font-bold text-blue-700">{personalData.name || ""}</h1>
+          <p className="text-xl font-semibold text-blue-600 mt-1">{personalData.title || ""}</p>
           
           {/* Contact info with dev icons */}
           <div className="flex flex-wrap gap-4 mt-3 text-sm">
             <div className="flex items-center">
               <span className="mr-2">📧</span>
-              <span>{data.personal.email}</span>
+              <span>{personalData.email || ""}</span>
             </div>
             <div className="flex items-center">
               <span className="mr-2">📱</span>
-              <span>{data.personal.phone}</span>
+              <span>{personalData.phone || ""}</span>
             </div>
             <div className="flex items-center">
               <span className="mr-2">📍</span>
-              <span>{data.personal.address}</span>
+              <span>{personalData.address || ""}</span>
             </div>
-            {data.personal.github && (
+            {personalData.github && (
               <div className="flex items-center">
                 <span className="mr-2">💻</span>
-                <span>{data.personal.github}</span>
+                <span>{personalData.github}</span>
               </div>
             )}
-            {data.personal.portfolio && (
+            {personalData.portfolio && (
               <div className="flex items-center">
                 <span className="mr-2">🔗</span>
-                <span>{data.personal.portfolio}</span>
+                <span>{personalData.portfolio}</span>
               </div>
             )}
           </div>
@@ -52,7 +55,7 @@ export default function WebDevTemplate({ data }) {
       {/* About Me */}
       <section className="py-3">
         <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-2">About Me</h2>
-        <p className="text-sm">{data.personal.about}</p>
+        <p className="text-sm">{personalData.about || ""}</p>
       </section>
 
       {/* Tech Skills */}
@@ -98,5 +101,5 @@ export default function WebDevTemplate({ data }) {
         ))}
       </section>
     </div>
-  )
+  );
 }
