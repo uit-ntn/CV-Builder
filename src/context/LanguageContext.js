@@ -109,6 +109,7 @@ const translations = {
     zoom: 'Thu phóng',
     apply: 'Áp dụng',
     cancel: 'Hủy bỏ',
+    dragToAdjust: 'Kéo để di chuyển, cuộn để thu phóng',
     
     // Multi-column layout
     leftColumn: 'Cột trái',
@@ -225,6 +226,7 @@ const translations = {
     zoom: 'Zoom',
     apply: 'Apply',
     cancel: 'Cancel',
+    dragToAdjust: 'Drag to move, scroll to zoom',
     
     // Multi-column layout
     leftColumn: 'Left Column',
