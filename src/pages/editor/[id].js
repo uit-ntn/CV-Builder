@@ -13,7 +13,7 @@ export default function EditorPage() {
   const [activeSection, setActiveSection] = useState('personal')
   const { t, language } = useLanguage();
   
-  // Define default CV data with avatar field
+  // Define default CV data with specialized sections
   const getDefaultCV = () => ({
     personal: {
       name: t('name'),
@@ -57,6 +57,29 @@ export default function EditorPage() {
     certifications: [
       { id: 'cert1', name: `${t('certName')} 1`, issuer: t('issuer'), date: '01/2022' },
       { id: 'cert2', name: `${t('certName')} 2`, issuer: t('issuer'), date: '06/2021' }
+    ],
+    // New specialized sections
+    projects: [
+      {
+        id: 'proj1',
+        title: t('projectTitle') || 'Project Title',
+        description: t('projectDescription') || 'Project Description',
+        technologies: t('projectTechnologies') || 'HTML, CSS, JavaScript',
+        link: 'https://github.com/yourusername/project',
+        image: '' // Base64 encoded image or URL
+      }
+    ],
+    technicalExpertise: [
+      {
+        id: 'tech1',
+        category: t('technicalCategory') || 'Cloud Platforms',
+        skills: t('technicalSkills') || 'AWS, Azure, Google Cloud Platform'
+      },
+      {
+        id: 'tech2',
+        category: t('technicalCategory2') || 'Containerization',
+        skills: t('technicalSkills2') || 'Docker, Kubernetes, Container Orchestration'
+      }
     ]
   });
 
@@ -90,6 +113,33 @@ export default function EditorPage() {
     });
   }
 
+  // Determine which sections to show based on the template
+  const getActiveSections = () => {
+    const commonSections = ['personal', 'experience', 'education', 'skills'];
+    
+    switch (templateId) {
+      case 'webdev':
+        return [...commonSections, 'projects'];
+      case 'cloud':
+        return [...commonSections, 'technicalExpertise', 'certifications'];
+      default:
+        return commonSections;
+    }
+  };
+  
+  const [availableSections, setAvailableSections] = useState(['personal', 'experience', 'education', 'skills']);
+  
+  // Update available sections when template changes
+  useEffect(() => {
+    if (templateId) {
+      setAvailableSections(getActiveSections());
+      // If current active section is not available in new template, reset to personal
+      if (!getActiveSections().includes(activeSection)) {
+        setActiveSection('personal');
+      }
+    }
+  }, [templateId]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <Head>
@@ -103,32 +153,17 @@ export default function EditorPage() {
           <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
             <h2 className="text-2xl font-bold mb-4">{t('editCV')}</h2>
             
-            {/* Section tabs */}
-            <div className="flex mb-6 border-b">
-              <button
-                className={`px-4 py-2 ${activeSection === 'personal' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
-                onClick={() => setActiveSection('personal')}
-              >
-                {t('personal')}
-              </button>
-              <button
-                className={`px-4 py-2 ${activeSection === 'experience' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
-                onClick={() => setActiveSection('experience')}
-              >
-                {t('experience')}
-              </button>
-              <button
-                className={`px-4 py-2 ${activeSection === 'education' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
-                onClick={() => setActiveSection('education')}
-              >
-                {t('education')}
-              </button>
-              <button
-                className={`px-4 py-2 ${activeSection === 'skills' ? 'border-b-2 border-blue-500 font-bold' : ''}`}
-                onClick={() => setActiveSection('skills')}
-              >
-                {t('skills')}
-              </button>
+            {/* Section tabs - dynamically generated based on template */}
+            <div className="flex flex-wrap mb-6 border-b">
+              {availableSections.map(section => (
+                <button
+                  key={section}
+                  className={`px-4 py-2 ${activeSection === section ? 'border-b-2 border-blue-500 font-bold' : ''}`}
+                  onClick={() => setActiveSection(section)}
+                >
+                  {t(section)}
+                </button>
+              ))}
             </div>
             
             {/* Editor component */}

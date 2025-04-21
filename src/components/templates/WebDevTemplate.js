@@ -1,6 +1,7 @@
 export default function WebDevTemplate({ data }) {
   // Ensure data has the expected structure
   const personalData = data?.personal || {};
+  const projects = data?.projects || [];
   
   return (
     <div id="cv-preview" className="w-full h-full bg-white text-gray-800 font-sans p-6">
@@ -57,6 +58,46 @@ export default function WebDevTemplate({ data }) {
         <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-2">About Me</h2>
         <p className="text-sm">{personalData.about || ""}</p>
       </section>
+
+      {/* Personal Projects - New section for WebDev Template */}
+      {projects.length > 0 && (
+        <section className="py-3">
+          <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Personal Projects</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {projects.map((project) => (
+              <div key={project.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                {project.image && (
+                  <div className="h-40 overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h3 className="font-bold text-blue-700 text-lg">{project.title}</h3>
+                  <p className="text-sm mt-1">{project.description}</p>
+                  <div className="mt-2">
+                    <span className="text-xs font-semibold text-gray-600">Technologies:</span>
+                    <p className="text-xs">{project.technologies}</p>
+                  </div>
+                  {project.link && (
+                    <a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-block mt-2 text-blue-600 hover:underline text-sm"
+                    >
+                      View Project →
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Tech Skills */}
       <section className="py-3">

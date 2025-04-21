@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 
 export default function CVEditor({ section, data, onChange, translations: t }) {
   const fileInputRef = useRef(null);
+  const projectImageRef = useRef(null);
   
   // Function to handle avatar upload
   const handleAvatarChange = (e) => {
@@ -37,6 +38,31 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
       ...data,
       avatar: ''
     });
+  };
+
+  // Function to handle project image upload
+  const handleProjectImageChange = (id, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Validate file size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      alert('File is too large. Maximum size is 2MB.');
+      return;
+    }
+    
+    // Validate file type
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      alert('Only JPG and PNG formats are supported.');
+      return;
+    }
+    
+    // Read file as data URL
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      handleUpdateItem(id, 'image', event.target.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   // Function to handle adding a new item to arrays (skills, experience, education)
@@ -432,6 +458,230 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
           >
             + {t('addEducation')}
+          </button>
+        </div>
+      )
+      
+    case 'projects':
+      return (
+        <div>
+          {/* List of projects */}
+          {Array.isArray(data) && data.map((project) => (
+            <div key={project.id} className="mb-6 border rounded p-4 relative">
+              <button 
+                onClick={() => handleRemoveItem(project.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              {/* Project image */}
+              <div className="mb-4 text-center">
+                {project.image ? (
+                  <div className="relative inline-block">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="h-40 object-cover rounded border border-gray-200"
+                    />
+                    <button
+                      onClick={() => handleUpdateItem(project.id, 'image', '')}
+                      className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 shadow-md"
+                      title={t('removeAvatar')}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                ) : (
+                  <div 
+                    onClick={() => projectImageRef.current.click()}
+                    className="h-40 border-2 border-dashed border-gray-300 rounded flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span className="text-xs text-gray-500 mt-2">{t('projectImage')}</span>
+                    
+                    <input 
+                      type="file" 
+                      ref={projectImageRef}
+                      onChange={(e) => handleProjectImageChange(project.id, e)}
+                      accept="image/jpeg, image/png"
+                      className="hidden"
+                    />
+                  </div>
+                )}
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTitle')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.title}
+                  onChange={(e) => handleUpdateItem(project.id, 'title', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectDescription')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={project.description}
+                  onChange={(e) => handleUpdateItem(project.id, 'description', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTechnologies')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.technologies}
+                  onChange={(e) => handleUpdateItem(project.id, 'technologies', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectLink')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.link}
+                  onChange={(e) => handleUpdateItem(project.id, 'link', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add project button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `proj${Date.now()}`,
+              title: t('projectTitle'),
+              description: t('projectDescription'),
+              technologies: t('projectTechnologies'),
+              link: 'https://github.com/yourusername/project',
+              image: ''
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addProject')}
+          </button>
+        </div>
+      )
+      
+    case 'technicalExpertise':
+      return (
+        <div>
+          {/* List of technical expertise */}
+          {Array.isArray(data) && data.map((tech) => (
+            <div key={tech.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(tech.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('technicalCategory')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={tech.category}
+                  onChange={(e) => handleUpdateItem(tech.id, 'category', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('technicalSkills')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={tech.skills}
+                  onChange={(e) => handleUpdateItem(tech.id, 'skills', e.target.value)}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {t('separateWithCommas') || 'Separate skills with commas'}
+                </p>
+              </div>
+            </div>
+          ))}
+          
+          {/* Add technical expertise button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `tech${Date.now()}`,
+              category: t('technicalCategory'),
+              skills: t('technicalSkills')
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addTechnical')}
+          </button>
+        </div>
+      )
+      
+    case 'certifications':
+      return (
+        <div>
+          {/* List of certifications */}
+          {Array.isArray(data) && data.map((cert) => (
+            <div key={cert.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(cert.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('certName')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={cert.name}
+                  onChange={(e) => handleUpdateItem(cert.id, 'name', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('issuer')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={cert.issuer}
+                  onChange={(e) => handleUpdateItem(cert.id, 'issuer', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('date')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={cert.date}
+                  onChange={(e) => handleUpdateItem(cert.id, 'date', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add certification button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `cert${Date.now()}`,
+              name: t('certName'),
+              issuer: t('issuer'),
+              date: '01/2022'
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addCertificate')}
           </button>
         </div>
       )

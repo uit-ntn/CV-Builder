@@ -83,7 +83,26 @@ const translations = {
     removeAvatar: 'Xóa ảnh',
     dragDropAvatar: 'Kéo thả ảnh vào đây hoặc nhấn để chọn file',
     maxFileSize: 'Kích thước tối đa: 2MB',
-    supportedFormats: 'Định dạng hỗ trợ: JPG, PNG'
+    supportedFormats: 'Định dạng hỗ trợ: JPG, PNG',
+    
+    // Specialized sections
+    projects: 'Dự án cá nhân',
+    technicalExpertise: 'Chuyên môn kỹ thuật',
+    
+    // Project section
+    projectTitle: 'Tên dự án',
+    projectDescription: 'Mô tả dự án',
+    projectTechnologies: 'Công nghệ sử dụng',
+    projectLink: 'Liên kết đến dự án',
+    projectImage: 'Hình ảnh dự án',
+    addProject: 'Thêm dự án',
+    
+    // Technical expertise section
+    technicalCategory: 'Danh mục kỹ thuật',
+    technicalCategory2: 'Công nghệ container',
+    technicalSkills: 'AWS, Azure, GCP',
+    technicalSkills2: 'Docker, Kubernetes',
+    addTechnical: 'Thêm chuyên môn kỹ thuật'
   },
   en: {
     // Navigation
@@ -166,7 +185,26 @@ const translations = {
     removeAvatar: 'Remove photo',
     dragDropAvatar: 'Drag and drop image here or click to browse',
     maxFileSize: 'Maximum size: 2MB',
-    supportedFormats: 'Supported formats: JPG, PNG'
+    supportedFormats: 'Supported formats: JPG, PNG',
+    
+    // Specialized sections
+    projects: 'Personal Projects',
+    technicalExpertise: 'Technical Expertise',
+    
+    // Project section
+    projectTitle: 'Project Name',
+    projectDescription: 'Project Description',
+    projectTechnologies: 'Technologies Used',
+    projectLink: 'Project Link',
+    projectImage: 'Project Image',
+    addProject: 'Add Project',
+    
+    // Technical expertise section
+    technicalCategory: 'Technical Category',
+    technicalCategory2: 'Containerization',
+    technicalSkills: 'AWS, Azure, GCP',
+    technicalSkills2: 'Docker, Kubernetes',
+    addTechnical: 'Add Technical Expertise'
   }
 };
 
