@@ -1,191 +1,127 @@
-import { useState, useRef } from 'react'
-import ImageCropper from './ImageCropper'
+import { useState, useRef } from 'react';
+import ImageCropper from './ImageCropper';
 
 export default function CVEditor({ section, data, onChange, translations: t }) {
+  const [avatarFile, setAvatarFile] = useState(null);
   const fileInputRef = useRef(null);
   const projectImageRef = useRef(null);
-  
-  // State for image cropping
-  const [cropperImage, setCropperImage] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
-  
-  // Function to handle avatar upload
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    // Validate file size (max 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      alert('File is too large. Maximum size is 2MB.');
-      return;
-    }
-    
-    // Validate file type
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      alert('Only JPG and PNG formats are supported.');
-      return;
-    }
-    
-    // Read file as data URL and show cropper
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setCropperImage(e.target.result);
+  const [cropperImage, setCropperImage] = useState(null);
+
+  // Handle file input change
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setAvatarFile(e.target.files[0]);
+      setCropperImage(URL.createObjectURL(e.target.files[0]));
       setShowCropper(true);
-    };
-    reader.readAsDataURL(file);
+    }
   };
-  
-  // Function to handle cropped image
-  const handleCroppedImage = (croppedImage) => {
-    onChange({
-      ...data,
-      avatar: croppedImage
-    });
+
+  // Handle click on avatar
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // Handle cropped image
+  const handleCroppedImage = (croppedImageBase64) => {
+    handlePersonalChange('avatar', croppedImageBase64);
     setShowCropper(false);
     setCropperImage(null);
   };
-  
-  // Function to cancel cropping
+
+  // Handle cropper cancel
   const handleCropperCancel = () => {
     setShowCropper(false);
     setCropperImage(null);
   };
-  
-  // Function to remove avatar
-  const handleRemoveAvatar = () => {
-    onChange({
-      ...data,
-      avatar: ''
-    });
-  };
 
-  // Function to handle project image upload
-  const handleProjectImageChange = (id, e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    // Validate file size (max 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      alert('File is too large. Maximum size is 2MB.');
-      return;
-    }
-    
-    // Validate file type
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      alert('Only JPG and PNG formats are supported.');
-      return;
-    }
-    
-    // Read file as data URL
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      handleUpdateItem(id, 'image', event.target.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  // Function to handle adding a new item to arrays (skills, experience, education)
-  const handleAddItem = (item) => {
-    if (Array.isArray(data)) {
-      const newData = [...data, item]
-      onChange(newData)
-    }
-  }
-
-  // Function to handle removing an item from arrays
-  const handleRemoveItem = (id) => {
-    if (Array.isArray(data)) {
-      const newData = data.filter(item => item.id !== id)
-      onChange(newData)
-    }
-  }
-
-  // Function to handle updating an item in arrays
-  const handleUpdateItem = (id, field, value) => {
-    if (Array.isArray(data)) {
-      const newData = data.map(item => {
-        if (item.id === id) {
-          return { ...item, [field]: value }
-        }
-        return item
-      })
-      onChange(newData)
-    }
-  }
-
-  // Function to handle personal information changes
+  // Handle personal data change
   const handlePersonalChange = (field, value) => {
-    onChange({ ...data, [field]: value })
-  }
+    const updatedPersonal = { ...data, [field]: value };
+    onChange(updatedPersonal);
+  };
+
+  // Handle add item to array
+  const handleAddItem = (newItem) => {
+    onChange([...(data || []), newItem]);
+  };
+
+  // Handle remove item from array
+  const handleRemoveItem = (itemId) => {
+    const updatedData = data.filter(item => item.id !== itemId);
+    onChange(updatedData);
+  };
+
+  // Handle update item in array
+  const handleUpdateItem = (itemId, field, value) => {
+    const updatedData = data.map(item => 
+      item.id === itemId ? { ...item, [field]: value } : item
+    );
+    onChange(updatedData);
+  };
+
+  // Handle project image change
+  const handleProjectImageChange = (projectId, e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        handleUpdateItem(projectId, 'image', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Render different section forms based on the active section
   switch (section) {
     case 'personal':
-      // Initialize data object if undefined
       const personalData = data || {};
       
       return (
         <div>
-          {/* Avatar upload with cropper */}
+          {/* Avatar upload */}
           <div className="mb-6 text-center">
-            <label className="block text-gray-700 mb-2 font-medium">{t('avatar')}</label>
-            
-            {personalData.avatar ? (
-              <div className="relative inline-block">
-                <img 
-                  src={personalData.avatar} 
-                  alt="Profile" 
-                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
-                />
-                <div className="absolute bottom-0 right-0 flex">
-                  <button
-                    onClick={() => {
-                      setCropperImage(personalData.avatar);
-                      setShowCropper(true);
-                    }}
-                    className="bg-blue-500 text-white rounded-full p-1 shadow-md mr-2"
-                    title={t('adjustAvatar')}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={handleRemoveAvatar}
-                    className="bg-red-500 text-white rounded-full p-1 shadow-md"
-                    title={t('removeAvatar')}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+            <div 
+              onClick={handleAvatarClick} 
+              className="relative w-32 h-32 mx-auto cursor-pointer group"
+            >
+              {personalData.avatar ? (
+                <div className="relative">
+                  <img 
+                    src={personalData.avatar} 
+                    alt="Avatar" 
+                    className="w-32 h-32 rounded-full object-cover border-2 border-gray-200"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                    <span className="text-white text-sm font-medium">Change Photo</span>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div 
-                onClick={() => fileInputRef.current.click()}
-                className="w-32 h-32 mx-auto border-2 border-dashed border-gray-300 rounded-full flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors"
+              ) : (
+                <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center border-2 border-dashed border-gray-400 group-hover:bg-gray-300 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+              )}
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/jpeg, image/png"
+                className="hidden"
+              />
+            </div>
+            {personalData.avatar && (
+              <button
+                onClick={() => handlePersonalChange('avatar', '')}
+                className="mt-2 text-red-500 hover:text-red-700"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                <span className="text-xs text-gray-500 mt-2">{t('uploadAvatar')}</span>
-              </div>
+                {t('removeAvatar')}
+              </button>
             )}
-            
-            <input 
-              type="file" 
-              ref={fileInputRef}
-              onChange={handleAvatarChange}
-              accept="image/jpeg, image/png"
-              className="hidden"
-            />
-            <p className="text-xs text-gray-500 mt-2">
-              {t('supportedFormats')} • {t('maxFileSize')}
-            </p>
           </div>
           
-          {/* Rest of personal info form */}
+          {/* Personal details */}
           <div className="mb-4">
             <label className="block text-gray-700 mb-1">{t('name')}</label>
             <input 
@@ -216,7 +152,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
           <div className="mb-4">
             <label className="block text-gray-700 mb-1">{t('phone')}</label>
             <input 
-              type="text" 
+              type="tel" 
               className="w-full border rounded px-3 py-2"
               value={personalData.phone || ''}
               onChange={(e) => handlePersonalChange('phone', e.target.value)}
@@ -277,7 +213,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             />
           )}
         </div>
-      )
+      );
     
     case 'skills':
       return (
@@ -324,7 +260,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addSkill')}
           </button>
         </div>
-      )
+      );
     
     case 'experience':
       return (
@@ -413,7 +349,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addExperience')}
           </button>
         </div>
-      )
+      );
     
     case 'education':
       return (
@@ -502,7 +438,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addEducation')}
           </button>
         </div>
-      )
+      );
       
     case 'projects':
       return (
@@ -614,7 +550,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addProject')}
           </button>
         </div>
-      )
+      );
       
     case 'technicalExpertise':
       return (
@@ -666,7 +602,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addTechnical')}
           </button>
         </div>
-      )
+      );
       
     case 'certifications':
       return (
@@ -726,7 +662,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addCertificate')}
           </button>
         </div>
-      )
+      );
       
     case 'frontendBackend':
       const webData = data || {};
@@ -778,7 +714,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             <p className="text-xs text-gray-500 mt-1">{t('codeDescription')}</p>
           </div>
         </div>
-      )
+      );
     
     case 'cloudInfrastructure':
       const cloudData = data || {};
@@ -829,7 +765,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             />
           </div>
         </div>
-      )
+      );
     
     case 'methodologies':
       return (
@@ -878,7 +814,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addMethodology')}
           </button>
         </div>
-      )
+      );
     
     case 'achievements':
       return (
@@ -927,7 +863,7 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addAchievement')}
           </button>
         </div>
-      )
+      );
     
     case 'businessTools':
       const businessData = data || {};
@@ -1029,7 +965,240 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             </button>
           </div>
         </div>
-      )
+      );
+    
+    case 'dataProjects':
+      return (
+        <div>
+          {/* List of data projects */}
+          {Array.isArray(data) && data.map((project) => (
+            <div key={project.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(project.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTitle')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.title}
+                  onChange={(e) => handleUpdateItem(project.id, 'title', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTechnologies')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.technologies}
+                  onChange={(e) => handleUpdateItem(project.id, 'technologies', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('description')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={project.description}
+                  onChange={(e) => handleUpdateItem(project.id, 'description', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add data project button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `dproj${Date.now()}`,
+              title: t('projectTitle'),
+              technologies: t('projectTechnologies'),
+              description: t('description')
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addDataProject')}
+          </button>
+        </div>
+      );
+    
+    case 'dataTechnologies':
+      const dataEngData = data || {};
+      
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('dataLanguages')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={dataEngData.dataLanguages || ''}
+              onChange={(e) => onChange({...dataEngData, dataLanguages: e.target.value})}
+              placeholder="Python, Scala, SQL, R"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('databases')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={dataEngData.databases || ''}
+              onChange={(e) => onChange({...dataEngData, databases: e.target.value})}
+              placeholder="PostgreSQL, MongoDB, Cassandra"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('bigDataTech')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={dataEngData.bigDataTech || ''}
+              onChange={(e) => onChange({...dataEngData, bigDataTech: e.target.value})}
+              placeholder="Hadoop, Spark, Kafka"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('dataPipelines')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="6"
+              value={dataEngData.dataPipelines || ''}
+              onChange={(e) => onChange({...dataEngData, dataPipelines: e.target.value})}
+              placeholder="• Designed and implemented ETL pipelines\n• Experience with batch and stream processing"
+            />
+          </div>
+        </div>
+      );
+
+    case 'devOpsProjects':
+      return (
+        <div>
+          {/* List of DevOps projects */}
+          {Array.isArray(data) && data.map((project) => (
+            <div key={project.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(project.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTitle')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.title}
+                  onChange={(e) => handleUpdateItem(project.id, 'title', e.target.value)}
+                />
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('projectTechnologies')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={project.technologies}
+                  onChange={(e) => handleUpdateItem(project.id, 'technologies', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('description')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={project.description}
+                  onChange={(e) => handleUpdateItem(project.id, 'description', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add DevOps project button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `devproj${Date.now()}`,
+              title: t('projectTitle'),
+              technologies: t('projectTechnologies'),
+              description: t('description')
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addDevOpsProject')}
+          </button>
+        </div>
+      );
+    
+    case 'devOpsTechnologies':
+      const devOpsData = data || {};
+      
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('cicdPipelines')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={devOpsData.cicdPipelines || ''}
+              onChange={(e) => onChange({...devOpsData, cicdPipelines: e.target.value})}
+              placeholder="Jenkins, GitHub Actions, GitLab CI/CD"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('containerization')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={devOpsData.containerization || ''}
+              onChange={(e) => onChange({...devOpsData, containerization: e.target.value})}
+              placeholder="Docker, Kubernetes, OpenShift"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('infrastructureTools')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={devOpsData.infrastructureTools || ''}
+              onChange={(e) => onChange({...devOpsData, infrastructureTools: e.target.value})}
+              placeholder="Terraform, Ansible, CloudFormation"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('monitoringTools')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={devOpsData.monitoringTools || ''}
+              onChange={(e) => onChange({...devOpsData, monitoringTools: e.target.value})}
+              placeholder="Prometheus, Grafana, ELK Stack"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('automationScripts')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="6"
+              value={devOpsData.automationScripts || ''}
+              onChange={(e) => onChange({...devOpsData, automationScripts: e.target.value})}
+              placeholder="• Created automation scripts\n• Implemented infrastructure as code"
+            />
+          </div>
+        </div>
+      );
     
     case 'campaigns':
       return (
@@ -1112,10 +1281,9 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             + {t('addCampaign')}
           </button>
         </div>
-      )
+      );
     
     case 'marketingDetails':
-      // Marketing specific fields
       const marketingData = data || {};
       
       return (
@@ -1145,9 +1313,9 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
             />
           </div>
         </div>
-      )
+      );
     
     default:
-      return <div>Please select a section to edit.</div>
+      return <div>Please select a section to edit.</div>;
   }
 }

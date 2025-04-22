@@ -18,6 +18,7 @@ export default function TemplateCard({ template }) {
       'analyst': ['from-violet-200', 'to-violet-400', 'text-violet-800'],
       'dataeng': ['from-purple-200', 'to-purple-400', 'text-purple-800'],
       'devops': ['from-teal-200', 'to-teal-400', 'text-teal-800'],
+      'marketing': ['from-rose-200', 'to-rose-400', 'text-rose-800'],
       'default': ['from-gray-200', 'to-gray-400', 'text-gray-800']
     };
     
@@ -28,18 +29,18 @@ export default function TemplateCard({ template }) {
 
   return (
     <div 
-      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="h-56 relative overflow-hidden">
+      <div className="h-64 relative overflow-hidden">
         {!imageError ? (
           <div className="w-full h-full">
             <img
               src={template.image}
               alt={template.name}
               className={`w-full h-full object-cover transition-transform duration-700 ${isHovered ? 'scale-110' : 'scale-100'}`}
-              style={{ objectFit: 'cover', aspectRatio: '16/9' }}
+              style={{ objectFit: 'cover' }}
               onError={() => setImageError(true)}
             />
           </div>
@@ -55,11 +56,11 @@ export default function TemplateCard({ template }) {
           <h3 className="text-xl font-bold drop-shadow-md">{template.name}</h3>
         </div>
       </div>
-      <div className="p-5">
-        <p className="text-gray-600 mb-5 line-clamp-2 h-12">{template.description}</p>
+      <div className="p-5 flex-grow flex flex-col">
+        <p className="text-gray-600 mb-5 flex-grow">{template.description}</p>
         <Link 
           href={`/editor/${template.id}`}
-          className={`block bg-blue-600 text-white text-center py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow transform ${isHovered ? 'translate-y-0' : 'translate-y-0.5'} duration-300 font-medium`}
+          className={`block bg-blue-600 text-white text-center py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow transform ${isHovered ? 'translate-y-0' : 'translate-y-0.5'} duration-300 font-medium mt-auto`}
         >
           {t('useThisTemplate')}
         </Link>

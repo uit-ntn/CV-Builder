@@ -72,7 +72,7 @@ export default function EditorPage() {
         technologies: t('projectTechnologies') || 'HTML, CSS, JavaScript',
         link: 'https://github.com/yourusername/project',
         image: '', // Base64 encoded image or URL
-        codeSnippet: '// Example code\nfunction hello() {\n  console.log("Hello world!");\n}' // New field for WebDev
+        codeSnippet: '// Example code\nfunction hello() {\n  console.log("Hello world!");\n}'
       }
     ],
     // Technical expertise section for Cloud
@@ -88,18 +88,7 @@ export default function EditorPage() {
         skills: t('technicalSkills2') || 'Docker, Kubernetes, Container Orchestration'
       }
     ],
-    // New specialized sections for WebDev
-    frontendSkills: 'React, Vue.js, Angular, HTML5, CSS3, JavaScript, TypeScript, SASS/LESS, Responsive Design',
-    backendSkills: 'Node.js, Express, Django, Flask, ASP.NET, PHP, REST APIs, GraphQL',
-    devOpsSkills: 'CI/CD, Jenkins, GitHub Actions, Docker, Kubernetes',
-    
-    // New specialized sections for Cloud Engineer
-    infrastructureSkills: 'IaC, Terraform, CloudFormation, Networking, Load Balancing, Auto Scaling',
-    securitySkills: 'IAM, Security Groups, VPC, Encryption, Compliance, Auditing',
-    cloudPlatforms: 'AWS, Azure, GCP, Alibaba Cloud',
-    devOpsTools: 'Docker, Kubernetes, Jenkins, GitHub Actions, GitLab CI, ArgoCD',
-    
-    // New specialized sections for Business Analyst
+    // Business Analyst sections
     methodologies: [
       {
         id: 'method1',
@@ -129,15 +118,71 @@ export default function EditorPage() {
       { area: 'Finance', description: 'Financial reporting, budgeting, forecasting' },
       { area: 'Healthcare', description: 'Patient data management, regulatory compliance' }
     ],
+    // Data Engineer sections
+    dataProjects: [
+      {
+        id: 'dproj1',
+        title: 'Data Pipeline Optimization',
+        technologies: 'Apache Airflow, Spark, S3',
+        description: 'Redesigned data pipelines that reduced processing time by 40% and improved data quality.'
+      },
+      {
+        id: 'dproj2',
+        title: 'Customer Analytics Platform',
+        technologies: 'Python, PostgreSQL, Tableau',
+        description: 'Built an end-to-end analytics solution to track customer behavior and business KPIs.'
+      }
+    ],
+    dataLanguages: 'Python, Scala, SQL, R',
+    databases: 'PostgreSQL, MongoDB, Cassandra',
+    bigDataTech: 'Hadoop, Spark, Kafka',
+    dataPipelines: '• Designed and implemented robust ETL pipelines processing over 10TB of data daily\n• Experience with batch and stream processing using Apache Kafka and Apache Spark\n• Created data quality checks and monitoring systems for data validation',
+    // DevOps sections
+    devOpsProjects: [
+      {
+        id: 'devproj1',
+        title: 'CI/CD Pipeline Modernization',
+        technologies: 'Jenkins, Docker, Kubernetes',
+        description: 'Redesigned deployment pipeline reducing deployment time from hours to minutes.'
+      },
+      {
+        id: 'devproj2',
+        title: 'Infrastructure as Code Implementation',
+        technologies: 'Terraform, AWS, GitOps',
+        description: 'Migrated manual infrastructure provisioning to IaC, achieving 100% environment consistency.'
+      }
+    ],
+    cicdPipelines: 'Jenkins, GitHub Actions, GitLab CI/CD',
+    containerization: 'Docker, Kubernetes, OpenShift',
+    infrastructureTools: 'Terraform, Ansible, CloudFormation',
+    monitoringTools: 'Prometheus, Grafana, ELK Stack',
+    automationScripts: '• Created automation scripts that reduced manual operations by 75%\n• Implemented infrastructure as code practices across multiple cloud platforms\n• Developed self-healing systems using advanced monitoring and alerting',
+    // Web Developer additional fields
+    frontendSkills: 'React, Vue.js, Angular, HTML5, CSS3, JavaScript, TypeScript, SASS/LESS, Responsive Design',
+    backendSkills: 'Node.js, Express, Django, Flask, ASP.NET, PHP, REST APIs, GraphQL',
+    devOpsSkills: 'CI/CD, Jenkins, GitHub Actions, Docker, Kubernetes',
+    // Cloud Engineer additional fields
+    infrastructureSkills: 'IaC, Terraform, CloudFormation, Networking, Load Balancing, Auto Scaling',
+    securitySkills: 'IAM, Security Groups, VPC, Encryption, Compliance, Auditing',
+    cloudPlatforms: 'AWS, Azure, GCP, Alibaba Cloud',
+    devOpsTools: 'Docker, Kubernetes, Jenkins, GitHub Actions, GitLab CI, ArgoCD',
     // Marketing sections
     campaigns: [
       {
         id: 'camp1',
-        title: t('campaignTitle') || 'Campaign Title',
-        client: t('campaignClient') || 'Client Name',
-        date: 'Q1 2023',
-        description: t('campaignDescription') || 'Campaign Description',
-        result: '25% increase in engagement'
+        title: 'Holiday Season Social Campaign',
+        client: 'Fashion Brand X',
+        date: 'Q4 2022',
+        description: 'Designed and executed an integrated social media campaign across Instagram and Facebook.',
+        result: '47% increase in engagement, 28% sales growth'
+      },
+      {
+        id: 'camp2',
+        title: 'Product Launch Email Campaign',
+        client: 'Tech Company Y',
+        date: 'Q2 2023',
+        description: 'Created a 4-email sequence for new product launch with segmented targeting.',
+        result: '32% open rate, 22% CTR, $250K in revenue'
       }
     ],
     socialPlatforms: 'Instagram, Facebook, LinkedIn, Twitter, TikTok',

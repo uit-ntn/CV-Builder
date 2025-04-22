@@ -164,20 +164,20 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">{t('chooseTemplate')}</h2>
           <p className="text-lg text-center mb-12 text-gray-600 max-w-2xl mx-auto">{t('templateSubtitle') || 'Select from our professionally designed templates tailored for different industries and roles'}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-fr">
             {templates.map((template, index) => (
-              <div
+              <div 
                 key={template.id}
-                className={`transition-all duration-1000 transform ${animateIn ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
+                className={`transition-all duration-1000 transform h-full ${animateIn ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                <TemplateCard
+                <TemplateCard 
                   template={{
                     ...template,
                     name: t(template.nameKey),
                     description: t(template.descriptionKey)
-                  }}
+                  }} 
                 />
               </div>
             ))}

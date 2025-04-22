@@ -23,7 +23,7 @@ export default function WebDevTemplate({ data }) {
             
             {/* Name and title */}
             <div>
-              <h1 className="text-3xl font-bold text-blue-700">{personalData.name || ""}</h1>
+              <h1 className="text-3xl font-bold text-gray-800">{personalData.name || ""}</h1>
               <p className="text-xl font-semibold text-blue-600 mt-1">{personalData.title || ""}</p>
             </div>
           </div>
@@ -48,16 +48,16 @@ export default function WebDevTemplate({ data }) {
                 <span>{personalData.github}</span>
               </div>
             )}
-            {personalData.portfolio && (
-              <div className="flex items-center">
-                <span className="mr-3 text-blue-600 w-5 text-center">🔗</span>
-                <span>{personalData.portfolio}</span>
-              </div>
-            )}
             {personalData.linkedin && (
               <div className="flex items-center">
                 <span className="mr-3 text-blue-600 w-5 text-center">👔</span>
                 <span>{personalData.linkedin}</span>
+              </div>
+            )}
+            {personalData.portfolio && (
+              <div className="flex items-center">
+                <span className="mr-3 text-blue-600 w-5 text-center">🔗</span>
+                <span>{personalData.portfolio}</span>
               </div>
             )}
           </div>
@@ -70,24 +70,8 @@ export default function WebDevTemplate({ data }) {
         <div className="w-full md:w-1/3 px-4 mb-6 md:mb-0">
           {/* About Me */}
           <section className="mb-6">
-            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-2">About Me</h2>
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">About Me</h2>
             <p className="text-sm">{personalData.about || ""}</p>
-          </section>
-
-          {/* Education */}
-          <section className="mb-6">
-            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Education</h2>
-            {data.education.map((edu) => (
-              <div key={edu.id} className="mb-4">
-                <div>
-                  <h3 className="font-bold">{edu.degree}</h3>
-                  <p className="text-sm text-gray-600">{edu.from} - {edu.to}</p>
-                </div>
-                <div className="text-blue-700 font-medium">{edu.school}</div>
-                <div className="text-sm text-gray-600">{edu.location}</div>
-                <p className="text-sm mt-1">{edu.description}</p>
-              </div>
-            ))}
           </section>
 
           {/* New specialized sections for WebDev */}
@@ -135,6 +119,21 @@ export default function WebDevTemplate({ data }) {
             </div>
           </section>
           
+          {/* DevOps Skills */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">DevOps Skills</h2>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {data.devOpsSkills && data.devOpsSkills.split(',').map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs"
+                >
+                  {skill.trim()}
+                </span>
+              ))}
+            </div>
+          </section>
+          
           {/* Personal Projects - specific for WebDev Template */}
           {projects.length > 0 && (
             <section className="mb-6">
@@ -174,41 +173,10 @@ export default function WebDevTemplate({ data }) {
               </div>
             </section>
           )}
-
-          {/* DevOps Skills */}
-          <section className="mb-6">
-            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">DevOps Skills</h2>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {data.devOpsSkills && data.devOpsSkills.split(',').map((skill, index) => (
-                <span 
-                  key={index} 
-                  className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs"
-                >
-                  {skill.trim()}
-                </span>
-              ))}
-            </div>
-          </section>
         </div>
         
         {/* Right column */}
         <div className="w-full md:w-1/3 px-4">
-          {/* Professional Experience */}
-          <section className="mb-6">
-            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Experience</h2>
-            {data.experience.map((exp) => (
-              <div key={exp.id} className="mb-4">
-                <div>
-                  <h3 className="font-bold">{exp.title}</h3>
-                  <p className="text-sm text-gray-600">{exp.from} - {exp.to}</p>
-                </div>
-                <div className="text-blue-700 font-medium">{exp.company}</div>
-                <div className="text-sm text-gray-600">{exp.location}</div>
-                <p className="text-sm mt-1">{exp.description}</p>
-              </div>
-            ))}
-          </section>
-
           {/* Code Snippet */}
           {data.codeSnippet && (
             <section className="mb-6">
@@ -218,6 +186,38 @@ export default function WebDevTemplate({ data }) {
               </div>
             </section>
           )}
+          
+          {/* Professional Experience */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Experience</h2>
+            {data.experience.map((exp) => (
+              <div key={exp.id} className="mb-4">
+                <h3 className="font-bold">{exp.title}</h3>
+                <div className="text-blue-700 font-medium">{exp.company}</div>
+                <div className="text-sm text-gray-600 flex justify-between">
+                  <span>{exp.location}</span>
+                  <span>{exp.from} - {exp.to}</span>
+                </div>
+                <p className="text-sm mt-1">{exp.description}</p>
+              </div>
+            ))}
+          </section>
+
+          {/* Education */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Education</h2>
+            {data.education.map((edu) => (
+              <div key={edu.id} className="mb-3">
+                <h3 className="font-bold">{edu.degree}</h3>
+                <div className="text-blue-700 font-medium">{edu.school}</div>
+                <div className="text-sm text-gray-600 flex justify-between">
+                  <span>{edu.location}</span>
+                  <span>{edu.from} - {edu.to}</span>
+                </div>
+                <p className="text-sm mt-1">{edu.description}</p>
+              </div>
+            ))}
+          </section>
         </div>
       </div>
     </div>
