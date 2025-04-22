@@ -7,6 +7,7 @@ import exportToPDF from '../../utils/exportToPDF';
 import exportToWord from '../../utils/exportToWord';
 import { useLanguage } from '../../context/LanguageContext';
 import { getErrorMessage } from '../../utils/errorHandler';
+import ThankYouModal from '../../components/ThankYouModal';
 
 export default function EditorPage() {
   const router = useRouter();
@@ -14,6 +15,8 @@ export default function EditorPage() {
   const [activeSection, setActiveSection] = useState('personal');
   const { t, language } = useLanguage();
   const [error, setError] = useState(null);
+  const [showThankYouModal, setShowThankYouModal] = useState(false);
+  const [exportedFileType, setExportedFileType] = useState('');
 
   // Define default CV data with specialized sections
   const getDefaultCV = () => ({
@@ -139,9 +142,14 @@ export default function EditorPage() {
     }
   }, [language]);
 
+  const handleExportSuccess = (fileType) => {
+    setExportedFileType(fileType);
+    setShowThankYouModal(true);
+  };
+
   const handleSavePDF = async () => {
     try {
-      const result = await exportToPDF(cvData, templateId);
+      const result = await exportToPDF(cvData, templateId, handleExportSuccess);
       if (!result.success && result.error) {
         const errorMsg = getErrorMessage(result.error.code || 'DEFAULT', language);
         setError(errorMsg);
@@ -154,7 +162,7 @@ export default function EditorPage() {
 
   const handleSaveWord = async () => {
     try {
-      const result = await exportToWord(cvData, templateId);
+      const result = await exportToWord(cvData, templateId, handleExportSuccess);
       if (!result.success && result.error) {
         const errorMsg = getErrorMessage(result.error.code || 'DEFAULT', language);
         setError(errorMsg);
@@ -284,6 +292,13 @@ export default function EditorPage() {
           </div>
         </div>
       </div>
+      
+      {/* Thank you modal */}
+      <ThankYouModal 
+        isOpen={showThankYouModal} 
+        onClose={() => setShowThankYouModal(false)}
+        fileType={exportedFileType}
+      />
     </div>
   );
 }

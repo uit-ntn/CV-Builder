@@ -1,7 +1,8 @@
 import { toPDF } from 'react-to-pdf';
 import { getErrorMessage } from './errorHandler';
 
-export default async function exportToPDF(cvData, templateId) {
+// Add export success callback parameter
+export default async function exportToPDF(cvData, templateId, onSuccess = null) {
   const element = document.getElementById('cv-preview');
   
   // Get current language for error messages
@@ -16,7 +17,7 @@ export default async function exportToPDF(cvData, templateId) {
 
   if (!element) {
     alert(errorMessage);
-    return;
+    return { success: false };
   }
 
   const options = {
@@ -62,6 +63,11 @@ export default async function exportToPDF(cvData, templateId) {
     
     // Clean up the URL object
     setTimeout(() => URL.revokeObjectURL(downloadLink.href), 100);
+    
+    // Call success callback if provided
+    if (onSuccess && typeof onSuccess === 'function') {
+      onSuccess('PDF');
+    }
     
     return { success: true };
   } catch (error) {

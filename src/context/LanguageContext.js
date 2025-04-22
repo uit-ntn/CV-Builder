@@ -142,7 +142,34 @@ const translations = {
     oneColumn: 'Một cột',
     twoColumns: 'Hai cột',
     threeColumns: 'Ba cột',
-    columnLayout: 'Bố cục cột'
+    columnLayout: 'Bố cục cột',
+    
+    // New home page translations
+    heroTitle: 'Tạo CV chuyên nghiệp chỉ trong vài phút',
+    heroSubtitle: 'Chọn từ các mẫu được thiết kế chuyên nghiệp, tùy chỉnh theo nhu cầu của bạn và xuất trong vài giây.',
+    getStarted: 'Bắt đầu ngay',
+    getStartedNow: 'Bắt đầu ngay bây giờ',
+    ourFeatures: 'Tại sao chọn N CV Builder?',
+    feature1Title: 'Thiết kế chuyên nghiệp',
+    feature1Desc: 'Các mẫu được thiết kế bởi chuyên gia giúp bạn nổi bật',
+    feature2Title: 'Dễ dàng tùy chỉnh',
+    feature2Desc: 'Trình soạn thảo đơn giản để hoàn thiện CV của bạn trong vài phút',
+    feature3Title: 'Xuất tức thì',
+    feature3Desc: 'Tải xuống dưới dạng PDF hoặc Word chỉ bằng một cú nhấp chuột',
+    templateSubtitle: 'Lựa chọn từ các mẫu được thiết kế chuyên nghiệp dành cho các ngành và vai trò khác nhau',
+    aboutTitle: 'Về tác giả',
+    aboutDesc: 'Xin chào, tôi là Nguyễn Thanh Nhân, người sáng lập N CV Builder. Với nhiều năm kinh nghiệm trong lĩnh vực tạo CV chuyên nghiệp, tôi đã thiết kế công cụ này để giúp bạn tạo CV ấn tượng nổi bật với nhà tuyển dụng.',
+    testimonials: 'Người dùng nói gì',
+    readyToStart: 'Sẵn sàng tạo CV chuyên nghiệp của bạn?',
+    ctaDescription: 'Chọn từ các mẫu của chúng tôi và tạo CV nổi bật trong vài phút',
+    
+    // Thank you modal translations
+    exportSuccess: 'Xuất file thành công!',
+    fileReady: 'File {{type}} của bạn đã sẵn sàng.',
+    thankYouMessage: 'Cảm ơn bạn đã sử dụng N CV Builder!',
+    helpMessage: 'Nếu công cụ này giúp ích cho bạn, hãy chia sẻ cho những người khác có thể cần đến nó.',
+    continueEditing: 'Tiếp tục chỉnh sửa',
+    createdBy: 'Được tạo bởi ❤️ Nguyễn Thanh Nhân'
   },
   en: {
     // Navigation
@@ -284,7 +311,34 @@ const translations = {
     oneColumn: 'One Column',
     twoColumns: 'Two Columns',
     threeColumns: 'Three Columns',
-    columnLayout: 'Column Layout'
+    columnLayout: 'Column Layout',
+    
+    // New home page translations
+    heroTitle: 'Create Professional CVs in Minutes',
+    heroSubtitle: 'Choose from our professionally designed templates, customize to fit your needs, and export in seconds.',
+    getStarted: 'Get Started',
+    getStartedNow: 'Get Started Now',
+    ourFeatures: 'Why Choose N CV Builder?',
+    feature1Title: 'Professionally Designed',
+    feature1Desc: 'Templates designed by professionals to help you stand out',
+    feature2Title: 'Easy to Customize',
+    feature2Desc: 'Simple editor to perfect your CV in minutes',
+    feature3Title: 'Instant Export',
+    feature3Desc: 'Download as PDF or Word with a single click',
+    templateSubtitle: 'Select from our professionally designed templates tailored for different industries and roles',
+    aboutTitle: 'About the Creator',
+    aboutDesc: 'Hi, I\'m Nguyễn Thanh Nhân, the founder of N CV Builder. With years of experience in professional resume creation, I designed this tool to help you create impressive CVs that stand out to employers.',
+    testimonials: 'What Our Users Say',
+    readyToStart: 'Ready to Create Your Professional CV?',
+    ctaDescription: 'Choose from our templates and create a standout CV in minutes',
+    
+    // Thank you modal translations
+    exportSuccess: 'Export Successful!',
+    fileReady: 'Your {{type}} file is ready.',
+    thankYouMessage: 'Thank you for using N CV Builder!',
+    helpMessage: 'If this tool helped you, please consider sharing it with others who might benefit.',
+    continueEditing: 'Continue Editing',
+    createdBy: 'Created with ❤️ by Nguyễn Thanh Nhân'
   }
 };
 
