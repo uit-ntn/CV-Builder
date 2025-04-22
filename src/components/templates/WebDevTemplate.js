@@ -89,6 +89,35 @@ export default function WebDevTemplate({ data }) {
               </div>
             ))}
           </section>
+
+          {/* New specialized sections for WebDev */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Frontend Skills</h2>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {data.frontendSkills && data.frontendSkills.split(',').map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs"
+                >
+                  {skill.trim()}
+                </span>
+              ))}
+            </div>
+          </section>
+
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Backend Skills</h2>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {data.backendSkills && data.backendSkills.split(',').map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="inline-block bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs"
+                >
+                  {skill.trim()}
+                </span>
+              ))}
+            </div>
+          </section>
         </div>
         
         {/* Middle column */}
@@ -145,6 +174,21 @@ export default function WebDevTemplate({ data }) {
               </div>
             </section>
           )}
+
+          {/* DevOps Skills */}
+          <section className="mb-6">
+            <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">DevOps Skills</h2>
+            <div className="flex flex-wrap gap-2 mb-3">
+              {data.devOpsSkills && data.devOpsSkills.split(',').map((skill, index) => (
+                <span 
+                  key={index} 
+                  className="inline-block bg-green-100 text-green-800 px-2 py-1 rounded text-xs"
+                >
+                  {skill.trim()}
+                </span>
+              ))}
+            </div>
+          </section>
         </div>
         
         {/* Right column */}
@@ -164,6 +208,16 @@ export default function WebDevTemplate({ data }) {
               </div>
             ))}
           </section>
+
+          {/* Code Snippet */}
+          {data.codeSnippet && (
+            <section className="mb-6">
+              <h2 className="text-xl font-bold border-l-4 border-blue-600 pl-2 mb-3">Code Example</h2>
+              <div className="bg-gray-900 text-white p-4 rounded-lg font-mono text-sm overflow-x-auto">
+                <pre>{data.codeSnippet}</pre>
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

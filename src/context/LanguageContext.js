@@ -65,6 +65,7 @@ const translations = {
     modernCV: 'CV Hiện đại',
     webDevCV: 'CV Lập trình viên Web',
     cloudCV: 'CV Kỹ sư Cloud',
+    analystCV: 'CV Business Analyst',
     
     // Template descriptions
     simpleDesc: 'Một mẫu CV sạch sẽ, tối giản',
@@ -72,6 +73,7 @@ const translations = {
     modernDesc: 'CV sáng tạo cho nhà thiết kế và nghệ sĩ',
     webDevDesc: 'Mẫu tối ưu cho lập trình viên web',
     cloudDesc: 'Thiết kế dành cho chuyên gia cloud và DevOps',
+    analystDesc: 'Mẫu dành riêng cho Business Analyst và Data Analyst',
     
     // Alerts
     pdfError: 'Không thể tạo PDF. Vui lòng thử lại.',
@@ -103,6 +105,29 @@ const translations = {
     technicalSkills: 'AWS, Azure, GCP',
     technicalSkills2: 'Docker, Kubernetes',
     addTechnical: 'Thêm chuyên môn kỹ thuật',
+    
+    // Business Analyst specific fields
+    businessSkills: 'Kỹ năng nghiệp vụ',
+    toolsUsed: 'Công cụ sử dụng',
+    methodologies: 'Phương pháp luận',
+    addMethodology: 'Thêm phương pháp luận',
+    domain: 'Lĩnh vực',
+    achievements: 'Thành tựu',
+    addAchievement: 'Thêm thành tựu',
+    
+    // Web Developer additional fields
+    frontendSkills: 'Kỹ năng Frontend',
+    backendSkills: 'Kỹ năng Backend',
+    devOpsSkills: 'Kỹ năng DevOps',
+    addCodeExample: 'Thêm mã nguồn',
+    codeSnippet: 'Đoạn mã',
+    codeDescription: 'Mô tả mã nguồn',
+    
+    // Cloud Engineer additional fields
+    infrastructureSkills: 'Kỹ năng hạ tầng',
+    securitySkills: 'Kỹ năng bảo mật',
+    cloudPlatforms: 'Nền tảng Cloud',
+    devOpsTools: 'Công cụ DevOps',
     
     // Image Cropper
     adjustAvatar: 'Điều chỉnh ảnh đại diện',
@@ -182,6 +207,7 @@ const translations = {
     modernCV: 'Modern CV',
     webDevCV: 'Web Developer CV',
     cloudCV: 'Cloud Engineer CV',
+    analystCV: 'Business Analyst CV',
     
     // Template descriptions
     simpleDesc: 'A clean, minimalist CV template',
@@ -189,6 +215,7 @@ const translations = {
     modernDesc: 'A creative CV for designers and artists',
     webDevDesc: 'Optimized template for web developers',
     cloudDesc: 'Tailored for cloud and DevOps professionals',
+    analystDesc: 'Tailored for Business and Data Analysts',
     
     // Alerts
     pdfError: 'Could not create PDF. Please try again.',
@@ -220,6 +247,29 @@ const translations = {
     technicalSkills: 'AWS, Azure, GCP',
     technicalSkills2: 'Docker, Kubernetes',
     addTechnical: 'Add Technical Expertise',
+    
+    // Business Analyst specific fields
+    businessSkills: 'Business Skills',
+    toolsUsed: 'Tools Used',
+    methodologies: 'Methodologies',
+    addMethodology: 'Add Methodology',
+    domain: 'Domain',
+    achievements: 'Achievements',
+    addAchievement: 'Add Achievement',
+    
+    // Web Developer additional fields
+    frontendSkills: 'Frontend Skills',
+    backendSkills: 'Backend Skills',
+    devOpsSkills: 'DevOps Skills',
+    addCodeExample: 'Add Code Example',
+    codeSnippet: 'Code Snippet',
+    codeDescription: 'Code Description',
+    
+    // Cloud Engineer additional fields
+    infrastructureSkills: 'Infrastructure Skills',
+    securitySkills: 'Security Skills',
+    cloudPlatforms: 'Cloud Platforms',
+    devOpsTools: 'DevOps Tools',
     
     // Image Cropper
     adjustAvatar: 'Adjust Profile Photo',

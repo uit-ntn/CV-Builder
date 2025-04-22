@@ -728,6 +728,309 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
         </div>
       )
       
+    case 'frontendBackend':
+      const webData = data || {};
+      
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('frontendSkills')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={webData.frontendSkills || ''}
+              onChange={(e) => onChange({...webData, frontendSkills: e.target.value})}
+              placeholder="React, Angular, Vue.js, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('backendSkills')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={webData.backendSkills || ''}
+              onChange={(e) => onChange({...webData, backendSkills: e.target.value})}
+              placeholder="Node.js, Django, Express, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('devOpsSkills')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={webData.devOpsSkills || ''}
+              onChange={(e) => onChange({...webData, devOpsSkills: e.target.value})}
+              placeholder="Docker, Kubernetes, CI/CD, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('codeSnippet')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2 font-mono text-sm"
+              rows="6"
+              value={webData.codeSnippet || ''}
+              onChange={(e) => onChange({...webData, codeSnippet: e.target.value})}
+              placeholder="// Your sample code here"
+            />
+            <p className="text-xs text-gray-500 mt-1">{t('codeDescription')}</p>
+          </div>
+        </div>
+      )
+    
+    case 'cloudInfrastructure':
+      const cloudData = data || {};
+      
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('infrastructureSkills')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={cloudData.infrastructureSkills || ''}
+              onChange={(e) => onChange({...cloudData, infrastructureSkills: e.target.value})}
+              placeholder="Terraform, CloudFormation, Networking, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('securitySkills')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={cloudData.securitySkills || ''}
+              onChange={(e) => onChange({...cloudData, securitySkills: e.target.value})}
+              placeholder="IAM, Security Groups, VPC, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('cloudPlatforms')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={cloudData.cloudPlatforms || ''}
+              onChange={(e) => onChange({...cloudData, cloudPlatforms: e.target.value})}
+              placeholder="AWS, Azure, GCP, etc."
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('devOpsTools')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="2"
+              value={cloudData.devOpsTools || ''}
+              onChange={(e) => onChange({...cloudData, devOpsTools: e.target.value})}
+              placeholder="Docker, Kubernetes, Jenkins, etc."
+            />
+          </div>
+        </div>
+      )
+    
+    case 'methodologies':
+      return (
+        <div>
+          {/* List of methodologies */}
+          {Array.isArray(data) && data.map((method) => (
+            <div key={method.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(method.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('methodologies')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={method.name}
+                  onChange={(e) => handleUpdateItem(method.id, 'name', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('description')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={method.description}
+                  onChange={(e) => handleUpdateItem(method.id, 'description', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add methodology button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `method${Date.now()}`,
+              name: t('methodologies'),
+              description: t('description')
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addMethodology')}
+          </button>
+        </div>
+      )
+    
+    case 'achievements':
+      return (
+        <div>
+          {/* List of achievements */}
+          {Array.isArray(data) && data.map((achievement) => (
+            <div key={achievement.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(achievement.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('achievements')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={achievement.title}
+                  onChange={(e) => handleUpdateItem(achievement.id, 'title', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('description')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={achievement.description}
+                  onChange={(e) => handleUpdateItem(achievement.id, 'description', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add achievement button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `achv${Date.now()}`,
+              title: t('achievements'),
+              description: t('description')
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addAchievement')}
+          </button>
+        </div>
+      )
+    
+    case 'businessTools':
+      const businessData = data || {};
+      
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('toolsUsed')}</label>
+            <div className="border rounded p-3">
+              <div className="flex flex-wrap gap-2 mb-2">
+                {businessData.toolsUsed?.map((tool, index) => (
+                  <div key={index} className="bg-gray-100 rounded-full px-3 py-1 flex items-center">
+                    <span className="text-sm">{tool}</span>
+                    <button
+                      onClick={() => {
+                        const newTools = [...(businessData.toolsUsed || [])];
+                        newTools.splice(index, 1);
+                        onChange({...businessData, toolsUsed: newTools});
+                      }}
+                      className="ml-2 text-red-500 font-bold"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex">
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  placeholder="Add tool (e.g., SQL, Excel, JIRA)"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && e.target.value.trim()) {
+                      const newTools = [...(businessData.toolsUsed || []), e.target.value.trim()];
+                      onChange({...businessData, toolsUsed: newTools});
+                      e.target.value = '';
+                    }
+                  }}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">Press Enter to add</p>
+            </div>
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('domain')}</label>
+            {businessData.domains?.map((domain, index) => (
+              <div key={index} className="mb-3 border rounded p-3 relative">
+                <button 
+                  onClick={() => {
+                    const newDomains = [...(businessData.domains || [])];
+                    newDomains.splice(index, 1);
+                    onChange({...businessData, domains: newDomains});
+                  }} 
+                  className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+                >
+                  ×
+                </button>
+                
+                <div className="mb-2">
+                  <label className="block text-gray-700 mb-1">{t('domain')}</label>
+                  <input 
+                    type="text" 
+                    className="w-full border rounded px-3 py-2"
+                    value={domain.area}
+                    onChange={(e) => {
+                      const newDomains = [...(businessData.domains || [])];
+                      newDomains[index] = {...domain, area: e.target.value};
+                      onChange({...businessData, domains: newDomains});
+                    }}
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-gray-700 mb-1">{t('description')}</label>
+                  <textarea 
+                    className="w-full border rounded px-3 py-2"
+                    rows="2"
+                    value={domain.description}
+                    onChange={(e) => {
+                      const newDomains = [...(businessData.domains || [])];
+                      newDomains[index] = {...domain, description: e.target.value};
+                      onChange({...businessData, domains: newDomains});
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+            
+            <button 
+              onClick={() => {
+                const newDomains = [...(businessData.domains || []), { area: '', description: '' }];
+                onChange({...businessData, domains: newDomains});
+              }}
+              className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+            >
+              + Add Domain
+            </button>
+          </div>
+        </div>
+      )
+      
     default:
       return <div>Please select a section to edit.</div>
   }

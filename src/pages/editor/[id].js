@@ -1,18 +1,20 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import CVEditor from '../../components/CVEditor'
-import CVPreview from '../../components/CVPreview'
-import exportToPDF from '../../utils/exportToPDF'
-import exportToWord from '../../utils/exportToWord'
-import { useLanguage } from '../../context/LanguageContext'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import CVEditor from '../../components/CVEditor';
+import CVPreview from '../../components/CVPreview';
+import exportToPDF from '../../utils/exportToPDF';
+import exportToWord from '../../utils/exportToWord';
+import { useLanguage } from '../../context/LanguageContext';
+import { getErrorMessage } from '../../utils/errorHandler';
 
 export default function EditorPage() {
-  const router = useRouter()
-  const { id: templateId } = router.query
-  const [activeSection, setActiveSection] = useState('personal')
+  const router = useRouter();
+  const { id: templateId } = router.query;
+  const [activeSection, setActiveSection] = useState('personal');
   const { t, language } = useLanguage();
-  
+  const [error, setError] = useState(null);
+
   // Define default CV data with specialized sections
   const getDefaultCV = () => ({
     personal: {
@@ -58,7 +60,7 @@ export default function EditorPage() {
       { id: 'cert1', name: `${t('certName')} 1`, issuer: t('issuer'), date: '01/2022' },
       { id: 'cert2', name: `${t('certName')} 2`, issuer: t('issuer'), date: '06/2021' }
     ],
-    // New specialized sections
+    // Projects section for WebDev
     projects: [
       {
         id: 'proj1',
@@ -66,9 +68,11 @@ export default function EditorPage() {
         description: t('projectDescription') || 'Project Description',
         technologies: t('projectTechnologies') || 'HTML, CSS, JavaScript',
         link: 'https://github.com/yourusername/project',
-        image: '' // Base64 encoded image or URL
+        image: '', // Base64 encoded image or URL
+        codeSnippet: '// Example code\nfunction hello() {\n  console.log("Hello world!");\n}' // New field for WebDev
       }
     ],
+    // Technical expertise section for Cloud
     technicalExpertise: [
       {
         id: 'tech1',
@@ -80,6 +84,47 @@ export default function EditorPage() {
         category: t('technicalCategory2') || 'Containerization',
         skills: t('technicalSkills2') || 'Docker, Kubernetes, Container Orchestration'
       }
+    ],
+    // New specialized sections for WebDev
+    frontendSkills: 'React, Vue.js, Angular, HTML5, CSS3, JavaScript, TypeScript, SASS/LESS, Responsive Design',
+    backendSkills: 'Node.js, Express, Django, Flask, ASP.NET, PHP, REST APIs, GraphQL',
+    devOpsSkills: 'CI/CD, Jenkins, GitHub Actions, Docker, Kubernetes',
+    
+    // New specialized sections for Cloud Engineer
+    infrastructureSkills: 'IaC, Terraform, CloudFormation, Networking, Load Balancing, Auto Scaling',
+    securitySkills: 'IAM, Security Groups, VPC, Encryption, Compliance, Auditing',
+    cloudPlatforms: 'AWS, Azure, GCP, Alibaba Cloud',
+    devOpsTools: 'Docker, Kubernetes, Jenkins, GitHub Actions, GitLab CI, ArgoCD',
+    
+    // New specialized sections for Business Analyst
+    methodologies: [
+      {
+        id: 'method1',
+        name: 'Agile/Scrum',
+        description: 'Experience facilitating agile ceremonies and user story workshops'
+      },
+      {
+        id: 'method2',
+        name: 'Business Process Modeling',
+        description: 'BPMN 2.0, process optimization, workflow analysis'
+      }
+    ],
+    achievements: [
+      {
+        id: 'achv1',
+        title: 'ERP Implementation',
+        description: 'Successfully gathered and documented requirements for company-wide ERP system'
+      },
+      {
+        id: 'achv2',
+        title: 'Process Optimization',
+        description: 'Reduced reporting cycle time by 40% through automation and process redesign'
+      }
+    ],
+    toolsUsed: ['SQL', 'Excel', 'PowerBI', 'Tableau', 'JIRA', 'Confluence', 'Visio'],
+    domains: [
+      { area: 'Finance', description: 'Financial reporting, budgeting, forecasting' },
+      { area: 'Healthcare', description: 'Patient data management, regulatory compliance' }
     ]
   });
 
@@ -94,13 +139,31 @@ export default function EditorPage() {
     }
   }, [language]);
 
-  const handleSavePDF = () => {
-    exportToPDF(cvData, templateId);
-  }
+  const handleSavePDF = async () => {
+    try {
+      const result = await exportToPDF(cvData, templateId);
+      if (!result.success && result.error) {
+        const errorMsg = getErrorMessage(result.error.code || 'DEFAULT', language);
+        setError(errorMsg);
+      }
+    } catch (err) {
+      console.error('PDF export error:', err);
+      setError(t('generalError'));
+    }
+  };
 
-  const handleSaveWord = () => {
-    exportToWord(cvData, templateId);
-  }
+  const handleSaveWord = async () => {
+    try {
+      const result = await exportToWord(cvData, templateId);
+      if (!result.success && result.error) {
+        const errorMsg = getErrorMessage(result.error.code || 'DEFAULT', language);
+        setError(errorMsg);
+      }
+    } catch (err) {
+      console.error('Word export error:', err);
+      setError(t('generalError'));
+    }
+  };
 
   // Update CV data when user edits form
   const handleDataChange = (section, data) => {
@@ -111,7 +174,12 @@ export default function EditorPage() {
         [section]: data
       };
     });
-  }
+  };
+
+  // Clear error when template or language changes
+  useEffect(() => {
+    setError(null);
+  }, [templateId, language]);
 
   // Determine which sections to show based on the template
   const getActiveSections = () => {
@@ -119,9 +187,11 @@ export default function EditorPage() {
     
     switch (templateId) {
       case 'webdev':
-        return [...commonSections, 'projects'];
+        return [...commonSections, 'projects', 'frontendBackend']; // Added new section
       case 'cloud':
-        return [...commonSections, 'technicalExpertise', 'certifications'];
+        return [...commonSections, 'technicalExpertise', 'certifications', 'cloudInfrastructure']; // Added new section
+      case 'analyst':
+        return [...commonSections, 'methodologies', 'achievements', 'businessTools']; // New sections for BA
       default:
         return commonSections;
     }
@@ -146,6 +216,20 @@ export default function EditorPage() {
         <title>{t('editCV')}</title>
         <meta name="description" content="Edit your CV" />
       </Head>
+
+      {/* Error message display */}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <strong className="font-bold mr-2">Error:</strong>
+          <span className="block sm:inline">{error}</span>
+          <button
+            className="absolute top-0 bottom-0 right-0 px-4 py-3"
+            onClick={() => setError(null)}
+          >
+            <span className="text-xl">&times;</span>
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col md:flex-row gap-6">
         {/* Left column - Editor */}
@@ -201,5 +285,5 @@ export default function EditorPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

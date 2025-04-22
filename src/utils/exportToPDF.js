@@ -1,4 +1,5 @@
 import { toPDF } from 'react-to-pdf';
+import { getErrorMessage } from './errorHandler';
 
 export default async function exportToPDF(cvData, templateId) {
   const element = document.getElementById('cv-preview');
@@ -39,13 +40,38 @@ export default async function exportToPDF(cvData, templateId) {
       canvas: {
         useCORS: true,
       }
-    }
+    },
+    // Set to use blob instead of file system directly
+    method: 'save-pdf',
   };
 
   try {
-    await toPDF(element, options);
+    // Create a blob first instead of writing to file directly
+    const pdfBlob = await toPDF(element, {
+      ...options,
+      method: 'blob'
+    });
+    
+    // Create a download link and trigger it
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(pdfBlob);
+    downloadLink.download = options.filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    
+    // Clean up the URL object
+    setTimeout(() => URL.revokeObjectURL(downloadLink.href), 100);
+    
+    return { success: true };
   } catch (error) {
     console.error('Error generating PDF:', error);
-    alert(generalError);
+    
+    // Use our error handler to get a appropriate message
+    const errorCode = error.code || 'DEFAULT';
+    const message = getErrorMessage(errorCode, language);
+    
+    alert(message || generalError);
+    return { success: false, error };
   }
 }

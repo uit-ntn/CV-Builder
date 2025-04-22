@@ -36,6 +36,12 @@ export default function Home() {
       nameKey: 'cloudCV',
       descriptionKey: 'cloudDesc',
       image: '/images/templates/cloud.png'
+    },
+    {
+      id: 'analyst',
+      nameKey: 'analystCV',
+      descriptionKey: 'analystDesc',
+      image: '/images/templates/analyst.png'
     }
   ]
 

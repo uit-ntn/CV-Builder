@@ -110,6 +110,23 @@ export default function CloudTemplate({ data }) {
                 ))}
               </div>
             </section>
+
+            {/* New Cloud Platforms section */}
+            <section className="mb-6">
+              <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
+                <span className="mr-2">☁️</span> Cloud Platforms
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {data.cloudPlatforms && data.cloudPlatforms.split(',').map((platform, index) => (
+                  <span 
+                    key={index} 
+                    className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm mb-2"
+                  >
+                    {platform.trim()}
+                  </span>
+                ))}
+              </div>
+            </section>
           </div>
           
           {/* Middle column */}
@@ -147,6 +164,22 @@ export default function CloudTemplate({ data }) {
                 ))}
               </div>
             </section>
+
+            {/* Infrastructure Skills */}
+            <section className="mb-6">
+              <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
+                <span className="mr-2">🏗️</span> Infrastructure Skills
+              </h2>
+              <p className="text-sm mb-2">{data.infrastructureSkills}</p>
+            </section>
+            
+            {/* Security Skills */}
+            <section className="mb-6">
+              <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
+                <span className="mr-2">🔒</span> Security Skills
+              </h2>
+              <p className="text-sm mb-2">{data.securitySkills}</p>
+            </section>
           </div>
           
           {/* Right column */}
@@ -165,6 +198,23 @@ export default function CloudTemplate({ data }) {
                     <div className="text-sm text-gray-600">{exp.location}</div>
                     <p className="text-sm mt-1">{exp.description}</p>
                   </div>
+                ))}
+              </div>
+            </section>
+
+            {/* DevOps Tools */}
+            <section className="mb-6">
+              <h2 className="text-xl font-bold text-gray-700 border-b-2 border-gray-300 pb-1 mb-3">
+                <span className="mr-2">🔧</span> DevOps Tools
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {data.devOpsTools && data.devOpsTools.split(',').map((tool, index) => (
+                  <span 
+                    key={index} 
+                    className="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded text-sm mb-2"
+                  >
+                    {tool.trim()}
+                  </span>
                 ))}
               </div>
             </section>
