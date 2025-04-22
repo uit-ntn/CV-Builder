@@ -1,70 +1,50 @@
-import { toPDF } from 'react-to-pdf';
-import { getErrorMessage } from './errorHandler';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
-// Add export success callback parameter
 export default async function exportToPDF(cvData, templateId, onSuccess = null) {
+  // Get the element that contains the CV preview
   const element = document.getElementById('cv-preview');
   
-  // Get current language for error messages
-  const language = localStorage.getItem('cv-language') || 'vi';
-  const errorMessage = language === 'vi' 
-    ? 'Không thể tạo PDF. Vui lòng thử lại.'
-    : 'Could not create PDF. Please try again.';
-  
-  const generalError = language === 'vi'
-    ? 'Có lỗi khi tạo PDF. Vui lòng thử lại sau.'
-    : 'Error generating PDF. Please try again later.';
-
   if (!element) {
-    alert(errorMessage);
+    alert('Could not find CV preview. Please try again.');
     return { success: false };
   }
-
-  const options = {
-    filename: `${cvData.personal.name.replace(/\s+/g, '-').toLowerCase()}-cv.pdf`,
-    page: {
-      format: 'A4',
-      orientation: 'portrait',
-      margin: {
-        top: '10mm',
-        right: '10mm',
-        bottom: '10mm',
-        left: '10mm'
-      }
-    },
-    overrides: {
-      // Override PDF output to ensure proper styling
-      pdf: {
-        compress: true,
-        userUnit: 1.0,
-      },
-      canvas: {
-        useCORS: true,
-      }
-    },
-    // Set to use blob instead of file system directly
-    method: 'save-pdf',
-  };
-
+  
   try {
-    // Create a blob first instead of writing to file directly
-    const pdfBlob = await toPDF(element, {
-      ...options,
-      method: 'blob'
+    // Create canvas from the element
+    const canvas = await html2canvas(element, { 
+      scale: 2, // Higher scale for better quality
+      useCORS: true,
+      logging: false,
+      allowTaint: true
     });
     
-    // Create a download link and trigger it
-    const downloadLink = document.createElement('a');
-    downloadLink.href = URL.createObjectURL(pdfBlob);
-    downloadLink.download = options.filename;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    // Create a PDF with proper dimensions (A4)
+    const imgWidth = 210; // A4 width in mm
+    const pageHeight = 297; // A4 height in mm
+    const imgHeight = canvas.height * imgWidth / canvas.width;
     
-    // Clean up the URL object
-    setTimeout(() => URL.revokeObjectURL(downloadLink.href), 100);
+    const pdf = new jsPDF('p', 'mm', 'a4');
     
-    // Call success callback if provided
+    // Add the canvas as an image to the PDF
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+    
+    // If the CV is longer than one page, add additional pages
+    let heightLeft = imgHeight;
+    let position = 0;
+    
+    while (heightLeft >= pageHeight) {
+      position = heightLeft - pageHeight;
+      pdf.addPage();
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, -position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+    
+    // Save the PDF
+    const filename = `${cvData.personal?.name?.replace(/\s+/g, '-').toLowerCase() || 'cv'}.pdf`;
+    pdf.save(filename);
+    
+    // Call success callback
     if (onSuccess && typeof onSuccess === 'function') {
       onSuccess('PDF');
     }
@@ -72,12 +52,7 @@ export default async function exportToPDF(cvData, templateId, onSuccess = null) 
     return { success: true };
   } catch (error) {
     console.error('Error generating PDF:', error);
-    
-    // Use our error handler to get a appropriate message
-    const errorCode = error.code || 'DEFAULT';
-    const message = getErrorMessage(errorCode, language);
-    
-    alert(message || generalError);
+    alert('An error occurred while generating the PDF. Please try again.');
     return { success: false, error };
   }
 }

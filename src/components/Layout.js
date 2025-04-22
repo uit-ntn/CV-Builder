@@ -78,7 +78,7 @@ export default function Layout({ children }) {
                 </div>
                 <span className="text-xl font-bold">CV Builder</span>
               </div>
-              <p className="mt-2 text-gray-300 max-w-md">{t('footerDescription') || 'Create professional CVs in minutes with our easy-to-use editor and beautiful templates.'}</p>
+              <p className="mt-2 text-gray-300 max-w-md"> Create professional CVs in minutes with our easy-to-use editor and beautiful templates.</p>
             </div>
             
             <div className="grid grid-cols-2 gap-8 sm:gap-16">
@@ -93,16 +93,16 @@ export default function Layout({ children }) {
               <div>
                 <h3 className="font-semibold mb-3">Contact</h3>
                 <ul className="space-y-2 text-gray-300">
-                  <li><a href="mailto:contact@ncvbuilder.com" className="hover:text-white">Email</a></li>
-                  <li><a href="https://github.com/nhannguyen95" target="_blank" rel="noopener noreferrer" className="hover:text-white">GitHub</a></li>
-                  <li><a href="https://linkedin.com/in/nhannguyen95" target="_blank" rel="noopener noreferrer" className="hover:text-white">LinkedIn</a></li>
+                  <li><a href="mailto:npthanhnhan2003@gmail.com" className="hover:text-white">Email</a></li>
+                  <li><a href="https://github.com/uit-ntn" target="_blank" rel="noopener noreferrer" className="hover:text-white">GitHub</a></li>
+                  <li><a href="https://www.linkedin.com/in/nguyen-nhan-732a66247/" target="_blank" rel="noopener noreferrer" className="hover:text-white">LinkedIn</a></li>
                 </ul>
               </div>
             </div>
           </div>
           
           <div className="border-t border-gray-700 mt-8 pt-6 text-center">
-            <p>&copy; {new Date().getFullYear()} N CV Builder. {t('allRightsReserved') || 'All rights reserved.'}</p>
+            <p>&copy; {new Date().getFullYear()} CV Builder. {t('allRightsReserved') || 'All rights reserved.'}</p>
             <p className="mt-2">Made with ❤️ by Nguyễn Thanh Nhân</p>
           </div>
         </div>

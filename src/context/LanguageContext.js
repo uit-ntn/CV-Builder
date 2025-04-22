@@ -66,14 +66,20 @@ const translations = {
     webDevCV: 'CV Lập trình viên Web',
     cloudCV: 'CV Kỹ sư Cloud',
     analystCV: 'CV Business Analyst',
+    dataEngCV: 'CV Data Engineer',
+    devOpsCV: 'CV DevOps Engineer',
+    marketingCV: 'CV Marketing',
     
     // Template descriptions
-    simpleDesc: 'Một mẫu CV sạch sẽ, tối giản',
-    professionalDesc: 'CV phong cách doanh nghiệp cho các vị trí công sở',
-    modernDesc: 'CV sáng tạo cho nhà thiết kế và nghệ sĩ',
-    webDevDesc: 'Mẫu tối ưu cho lập trình viên web',
-    cloudDesc: 'Thiết kế dành cho chuyên gia cloud và DevOps',
+    simpleDesc: 'Một mẫu CV sạch sẽ, tối giản và dễ đọc cho mọi ngành nghề',
+    professionalDesc: 'CV phong cách doanh nghiệp cao cấp cho các vị trí công sở và quản lý',
+    modernDesc: 'CV sáng tạo với bố cục hiện đại cho nhà thiết kế và nghệ sĩ',
+    webDevDesc: 'Mẫu tối ưu cho lập trình viên web với phần trình bày code và dự án',
+    cloudDesc: 'Thiết kế dành riêng cho các chuyên gia Cloud',
     analystDesc: 'Mẫu dành riêng cho Business Analyst và Data Analyst',
+    dataEngDesc: 'CV chuyên nghiệp cho Data Engineer, nhấn mạnh kỹ năng dữ liệu và công nghệ',
+    devOpsDesc: 'Mẫu dành cho DevOps Engineer với trọng tâm vào CI/CD và tự động hóa',
+    marketingDesc: 'Mẫu CV chuyên nghiệp cho chuyên viên Marketing và người làm trong lĩnh vực quảng cáo',
     
     // Alerts
     pdfError: 'Không thể tạo PDF. Vui lòng thử lại.',
@@ -128,6 +134,33 @@ const translations = {
     securitySkills: 'Kỹ năng bảo mật',
     cloudPlatforms: 'Nền tảng Cloud',
     devOpsTools: 'Công cụ DevOps',
+    
+    // Data Engineer specific fields
+    dataTools: 'Công cụ xử lý dữ liệu',
+    dataLanguages: 'Ngôn ngữ lập trình',
+    databases: 'Cơ sở dữ liệu',
+    bigDataTech: 'Công nghệ Big Data',
+    dataPipelines: 'Data Pipelines',
+    addDataProject: 'Thêm dự án dữ liệu',
+    
+    // DevOps specific fields
+    cicdPipelines: 'CI/CD Pipelines',
+    containerization: 'Công nghệ Container',
+    infrastructureTools: 'Công cụ hạ tầng',
+    monitoringTools: 'Công cụ giám sát',
+    automationScripts: 'Tự động hóa',
+    addDevOpsProject: 'Thêm dự án DevOps',
+    
+    // Marketing specific fields
+    socialPlatforms: 'Nền tảng mạng xã hội',
+    marketingTools: 'Công cụ Marketing',
+    campaigns: 'Chiến dịch Marketing',
+    addCampaign: 'Thêm chiến dịch',
+    campaignTitle: 'Tên chiến dịch',
+    campaignClient: 'Khách hàng',
+    campaignDate: 'Thời gian',
+    campaignDescription: 'Mô tả chiến dịch',
+    campaignResult: 'Kết quả',
     
     // Image Cropper
     adjustAvatar: 'Điều chỉnh ảnh đại diện',
@@ -235,14 +268,20 @@ const translations = {
     webDevCV: 'Web Developer CV',
     cloudCV: 'Cloud Engineer CV',
     analystCV: 'Business Analyst CV',
+    dataEngCV: 'Data Engineer CV',
+    devOpsCV: 'DevOps Engineer CV',
+    marketingCV: 'Marketing CV',
     
     // Template descriptions
-    simpleDesc: 'A clean, minimalist CV template',
-    professionalDesc: 'A business-style CV for corporate roles',
-    modernDesc: 'A creative CV for designers and artists',
-    webDevDesc: 'Optimized template for web developers',
+    simpleDesc: 'A clean, minimalist and highly readable CV template suitable for all professions',
+    professionalDesc: 'A premium business-style CV for corporate roles and management positions',
+    modernDesc: 'A creative CV with modern layout for designers and creative professionals',
+    webDevDesc: 'Optimized template for web developers with code display and project showcase',
     cloudDesc: 'Tailored for cloud and DevOps professionals',
     analystDesc: 'Tailored for Business and Data Analysts',
+    dataEngDesc: 'Professional CV for Data Engineers, emphasizing data skills and technologies',
+    devOpsDesc: 'Template for DevOps Engineers focusing on CI/CD and automation',
+    marketingDesc: 'Professional template for Marketing Specialists and professionals in advertising',
     
     // Alerts
     pdfError: 'Could not create PDF. Please try again.',
@@ -297,6 +336,33 @@ const translations = {
     securitySkills: 'Security Skills',
     cloudPlatforms: 'Cloud Platforms',
     devOpsTools: 'DevOps Tools',
+    
+    // Data Engineer specific fields
+    dataTools: 'Data Processing Tools',
+    dataLanguages: 'Programming Languages',
+    databases: 'Databases',
+    bigDataTech: 'Big Data Technologies',
+    dataPipelines: 'Data Pipelines',
+    addDataProject: 'Add Data Project',
+    
+    // DevOps specific fields
+    cicdPipelines: 'CI/CD Pipelines',
+    containerization: 'Containerization',
+    infrastructureTools: 'Infrastructure Tools',
+    monitoringTools: 'Monitoring Tools',
+    automationScripts: 'Automation',
+    addDevOpsProject: 'Add DevOps Project',
+    
+    // Marketing specific fields
+    socialPlatforms: 'Social Media Platforms',
+    marketingTools: 'Marketing Tools',
+    campaigns: 'Marketing Campaigns',
+    addCampaign: 'Add Campaign',
+    campaignTitle: 'Campaign Name',
+    campaignClient: 'Client',
+    campaignDate: 'Date',
+    campaignDescription: 'Campaign Description',
+    campaignResult: 'Results',
     
     // Image Cropper
     adjustAvatar: 'Adjust Profile Photo',

@@ -1030,7 +1030,123 @@ export default function CVEditor({ section, data, onChange, translations: t }) {
           </div>
         </div>
       )
+    
+    case 'campaigns':
+      return (
+        <div>
+          {/* List of campaigns */}
+          {Array.isArray(data) && data.map((campaign) => (
+            <div key={campaign.id} className="mb-4 border rounded p-3 relative">
+              <button 
+                onClick={() => handleRemoveItem(campaign.id)} 
+                className="absolute top-2 right-2 text-white bg-red-500 rounded-full w-6 h-6 flex items-center justify-center"
+              >
+                ×
+              </button>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('campaignTitle')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={campaign.title}
+                  onChange={(e) => handleUpdateItem(campaign.id, 'title', e.target.value)}
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="block text-gray-700 mb-1">{t('campaignClient')}</label>
+                  <input 
+                    type="text" 
+                    className="w-full border rounded px-3 py-2"
+                    value={campaign.client}
+                    onChange={(e) => handleUpdateItem(campaign.id, 'client', e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-700 mb-1">{t('campaignDate')}</label>
+                  <input 
+                    type="text" 
+                    className="w-full border rounded px-3 py-2"
+                    value={campaign.date}
+                    onChange={(e) => handleUpdateItem(campaign.id, 'date', e.target.value)}
+                  />
+                </div>
+              </div>
+              
+              <div className="mb-3">
+                <label className="block text-gray-700 mb-1">{t('campaignDescription')}</label>
+                <textarea 
+                  className="w-full border rounded px-3 py-2"
+                  rows="3"
+                  value={campaign.description}
+                  onChange={(e) => handleUpdateItem(campaign.id, 'description', e.target.value)}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-gray-700 mb-1">{t('campaignResult')}</label>
+                <input 
+                  type="text" 
+                  className="w-full border rounded px-3 py-2"
+                  value={campaign.result}
+                  onChange={(e) => handleUpdateItem(campaign.id, 'result', e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+          
+          {/* Add campaign button */}
+          <button 
+            onClick={() => handleAddItem({
+              id: `camp${Date.now()}`,
+              title: t('campaignTitle'),
+              client: t('campaignClient'),
+              date: 'Q1 2023',
+              description: t('campaignDescription'),
+              result: '25% increase in engagement'
+            })}
+            className="bg-green-500 text-white w-full py-2 rounded hover:bg-green-600 transition-colors"
+          >
+            + {t('addCampaign')}
+          </button>
+        </div>
+      )
+    
+    case 'marketingDetails':
+      // Marketing specific fields
+      const marketingData = data || {};
       
+      return (
+        <div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('socialPlatforms')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="3"
+              value={marketingData.socialPlatforms || ''}
+              onChange={(e) => onChange({...marketingData, socialPlatforms: e.target.value})}
+              placeholder="Instagram, Facebook, LinkedIn, Twitter, TikTok"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              {t('separateWithCommas') || 'Separate platforms with commas'}
+            </p>
+          </div>
+          
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1 font-medium">{t('marketingTools')}</label>
+            <textarea 
+              className="w-full border rounded px-3 py-2"
+              rows="4"
+              value={marketingData.marketingTools || ''}
+              onChange={(e) => onChange({...marketingData, marketingTools: e.target.value})}
+              placeholder="Google Analytics, Mailchimp, Hootsuite, SEMrush, Canva"
+            />
+          </div>
+        </div>
+      )
+    
     default:
       return <div>Please select a section to edit.</div>
   }

@@ -128,7 +128,20 @@ export default function EditorPage() {
     domains: [
       { area: 'Finance', description: 'Financial reporting, budgeting, forecasting' },
       { area: 'Healthcare', description: 'Patient data management, regulatory compliance' }
-    ]
+    ],
+    // Marketing sections
+    campaigns: [
+      {
+        id: 'camp1',
+        title: t('campaignTitle') || 'Campaign Title',
+        client: t('campaignClient') || 'Client Name',
+        date: 'Q1 2023',
+        description: t('campaignDescription') || 'Campaign Description',
+        result: '25% increase in engagement'
+      }
+    ],
+    socialPlatforms: 'Instagram, Facebook, LinkedIn, Twitter, TikTok',
+    marketingTools: 'Google Analytics, Mailchimp, Hootsuite, SEMrush, Canva, HubSpot'
   });
 
   const [cvData, setCvData] = useState(() => getDefaultCV());
@@ -195,11 +208,17 @@ export default function EditorPage() {
     
     switch (templateId) {
       case 'webdev':
-        return [...commonSections, 'projects', 'frontendBackend']; // Added new section
+        return [...commonSections, 'projects', 'frontendBackend'];
       case 'cloud':
-        return [...commonSections, 'technicalExpertise', 'certifications', 'cloudInfrastructure']; // Added new section
+        return [...commonSections, 'technicalExpertise', 'certifications', 'cloudInfrastructure'];
       case 'analyst':
-        return [...commonSections, 'methodologies', 'achievements', 'businessTools']; // New sections for BA
+        return [...commonSections, 'methodologies', 'achievements', 'businessTools'];
+      case 'dataeng':
+        return [...commonSections, 'dataProjects', 'dataTechnologies', 'certifications'];
+      case 'devops':
+        return [...commonSections, 'devOpsProjects', 'devOpsTechnologies', 'certifications'];
+      case 'marketing':
+        return [...commonSections, 'campaigns', 'marketingDetails', 'certifications'];
       default:
         return commonSections;
     }
